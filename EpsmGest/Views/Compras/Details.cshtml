@@ -1,0 +1,163 @@
+﻿@model EPSMGest.Models.ComprasModel
+
+@{
+    ViewData["Title"] = "Details";
+}
+
+<div class="p-1 p-md-3 p-lg-4">
+    <div class="card">
+        <h5 class="card-header" style="background-color:rgb(35, 141, 15);color:white;">COMPRAS</h5>
+        <div class="card-body">
+            <dl class="row">
+                <dt class="col-sm-2">
+                    Nº Compra
+                </dt>
+                <dd class="col-sm-10">
+                    @Html.DisplayFor(model => model.IdCompra)
+                </dd>
+                <dt class="col-sm-2">
+                    Data
+                </dt>
+                <dd class="col-sm-10">
+                    @Model.Date.ToString("dd/MM/yyyy")
+                </dd>
+                <dt class="col-sm-2">
+                    @Html.DisplayNameFor(model => model.Item)
+                </dt>
+                <dd class="col-sm-10">
+                    @Html.DisplayFor(model => model.Item)
+                </dd>
+                <dt class="col-sm-2">
+                    Aprovação
+                </dt>
+                <dd class="col-sm-10">
+                    @if (Model.Aprovacao1 == true && Model.Aprovacao2 == true)
+                    {
+                        <text>1,2</text>
+                    }
+                    else if (Model.Aprovacao1 == true)
+                    {
+                        <text>1</text>
+                    }
+                    else if (Model.Aprovacao2 == true)
+                    {
+                        <text>2</text>
+                    }
+                </dd>
+                <dt class="col-sm-2">
+                    Requesição
+                </dt>
+                @if (Model.IdRequisicao != null)
+                {
+                    <dd class="col-sm-10">
+                        <a asp-controller="Requesicao" asp-action="Detalhes" asp-route-id="@Model.IdRequisicao" target="_blank">@Html.DisplayFor(model => model.IdRequisicao)</a>
+                    </dd>
+                }
+                else
+                {
+                    <dd class="col-sm-10"></dd>
+                }
+                <dt class="col-sm-2">
+                    @Html.DisplayNameFor(model => model.Pagamento)
+                </dt>
+                <dd class="col-sm-10">
+                    @Html.DisplayFor(model => model.Pagamento)
+                </dd>
+                <dt class="col-sm-2">
+                    @Html.DisplayNameFor(model => model.Observacoes)
+                </dt>
+                <dd class="col-sm-10">
+                    @Html.DisplayFor(model => model.Observacoes)
+                </dd>
+            </dl>
+            <div class="mt-2">
+                <a asp-action="Index" class="btn btn-secondary"><i class="fas fa-arrow-left"></i> Voltar</a>
+                <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#editModel"><i class="fas fa-edit"></i> Editar</button>
+                <button type="button" class="btn btn-danger" data-bs-toggle="modal" data-bs-target="#deleteModel"><i class="fas fa-trash-alt"></i> Apagar</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+
+<!-- Delete  Modal -->
+<div class="modal fade" id="deleteModel" tabindex="-1" aria-labelledby="deleteModelLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="exampleModalLabel">Apagar Requesição</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+                Quer mesmo apagar esta compra?
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancelar</button>
+                <a asp-action="Apagar" asp-route-id="@Model.Id" class="btn btn-danger">Apagar</a>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Edit  Modal -->
+<div class="modal fade" id="editModel" tabindex="-1" aria-labelledby="editModelLabel" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-scrollable">
+        <div class="modal-content">
+            <form asp-action="Editar">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="exampleModalLabel">Editar Requesição</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                    <input type="hidden" asp-for="Id" />
+                    <input type="hidden" asp-for="IdCompra" />
+                    <div class="form-group">
+                        <label asp-for="IdRequisicao" class="control-label">Requisição:</label>
+                        @Html.DropDownListFor(x => x.IdRequisicao, new SelectList(ViewBag.Requesicoes, "Id", "Name"), "-- Selecione Requisção --", new { @class="form-control"})
+                        <span asp-validation-for="IdRequisicao" class="text-danger"></span>
+                    </div>
+                    <div class="form-group">
+                        <label asp-for="Item" class="control-label"></label>
+                        <input asp-for="Item" class="form-control" />
+                        <span asp-validation-for="Item" class="text-danger"></span>
+                    </div>
+                    <div class="form-group">
+                        <label asp-for="Observacoes" class="control-label"></label>
+                        <input asp-for="Observacoes" class="form-control" />
+                        <span asp-validation-for="Observacoes" class="text-danger"></span>
+                    </div>
+                    <div class="form-group">
+                        <label asp-for="Aprovacao1" class="control-label"></label>
+                        <input asp-for="Aprovacao1" class="form-control" />
+                        <span asp-validation-for="Aprovacao1" class="text-danger"></span>
+                    </div>
+                    <div class="form-group">
+                        <label asp-for="Aprovacao2" class="control-label"></label>
+                        <input asp-for="Aprovacao2" class="form-control" />
+                        <span asp-validation-for="Aprovacao2" class="text-danger"></span>
+                    </div>
+                    <div class="form-group">
+                        <label asp-for="Pagamento" class="control-label"></label>
+                        <input asp-for="Pagamento" class="form-control" />
+                        <span asp-validation-for="Pagamento" class="text-danger"></span>
+                    </div>
+                    <div class="form-group">
+                        <label asp-for="Date" class="control-label"></label>
+                        <input asp-for="Date" type="date" class="form-control" />
+                        <span asp-validation-for="Date" class="text-danger"></span>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancelar</button>
+                    <button type="submit" class="btn btn-primary">Editar</button>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+@section Scripts {
+    @{
+    await Html.RenderPartialAsync("_ValidationScriptsPartial");
+}
+}

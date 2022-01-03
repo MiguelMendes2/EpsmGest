@@ -1,0 +1,118 @@
+﻿@{
+    int perms;
+    if (User.IsInRole("Professor")) { perms = 0; }
+    else if (User.IsInRole("Funcionário DGAR")) { perms = 1; }
+    else if (User.IsInRole("Administrator")) { perms = 2; }
+    else { perms = -1; }
+    ViewData["Title"] = "Home Page";
+}
+
+<div class="row" style="margin-left:0;margin-right:0;color:white;">
+    <div class="col-12 col-md-6">
+        <div id="pesquisa" class="border border-success rounded mt-2" style="width:100%;box-shadow: 1px 1px 5px rgb(50 50 50 / 77%)">
+            <div class="border-bottom border-success" style="background: linear-gradient(to left, #70ba3e ,#48a827 , #127905);">
+                <div class="m-0 row pl-5 py-2">
+                    <h1 id="tituloSeccao" style="color:white; margin-bottom:1px !important;">REQUISIÇOES</h1>
+                </div>
+            </div>
+            <div class="row px-4 p-3">
+
+                <div class="col-6 col-md-4" id="colunasmenu">
+                    <a asp-controller="Requesicao" asp-action="Criar" class="btn btn-success w-100 h-100" style="background-color:rgb(35, 141, 15)">
+                        <i class="fas fa-file-invoice fa-2x mb-3" id="iconmenu"></i><br> Inserir Requisição
+                    </a>
+                </div>
+                @if (perms != 0)
+                {
+                    <div class="col-6 col-md-4">
+                        <a asp-controller="Requesicao" asp-action="Index" class="btn btn-success w-100 h-100" style="background-color:rgb(35, 141, 15)">
+                            <i class="fas fa-table fa-2x mb-3" id="iconmenu"></i><br>Ver Requisições
+                        </a>
+                    </div>
+                }
+                <div class="col-6 col-md-4">
+                    <a asp-controller="Requesicao" asp-action="Pessoais" class="btn btn-success w-100 h-100" style="background-color:rgb(35, 141, 15)">
+                        <i class="fas fa-table fa-2x mb-3" id="iconmenu"></i><br>Ver Suas Requisições
+                    </a>
+                </div>
+            </div>
+        </div>
+    </div>
+    @if (perms != 0)
+    {
+        <div class="col-12 col-md-6">
+            <div id="pesquisa" class="border border-success rounded mt-2" style="width:100%;box-shadow: 1px 1px 5px rgb(50 50 50 / 77%)">
+                <div class="border-bottom border-success" style="background: linear-gradient(to left, #299413, #70ba3e,#48a827 );">
+                    <div class="m-0 row pl-5 py-2">
+                        <h1 id="tituloSeccao" style="color:white; margin-bottom:1px !important;">COMPRAS</h1>
+                    </div>
+                </div>
+                <div class="row px-4 p-3">
+                    <div class="col-6 col-md-4" id="colunasmenu">
+                        <a asp-controller="Compras" asp-action="Criar" class="btn btn-success w-100 h-100" style="background-color:rgb(35, 141, 15)">
+                            <i class="fas fa-shopping-cart fa-2x mb-3" id="iconmenu"></i><br> Inserir Compras
+                        </a>
+                    </div>
+                    <div class="col-6 col-md-4">
+                        <a asp-controller="Compras" asp-action="Index" class="btn btn-success w-100 h-100" style="background-color:rgb(35, 141, 15)">
+                            <i class="fas fa-table fa-2x mb-3" id="iconmenu"></i><br>Ver Compras
+                        </a>
+                    </div>
+                    <div class="col-6 col-md-4 mt-2 mt-md-0">
+                        <a asp-controller="Compras" asp-action="Graficos" class="btn btn-success w-100 h-100" style="background-color:rgb(35, 141, 15)">
+                            <i class="fas fa-chart-bar fa-2x mb-3" id="iconmenu"></i><br>Ver Gráficos
+                        </a>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="col-12 col-md-6">
+            <div id="pesquisa" class="border border-success rounded mt-2" style="width:100%;box-shadow: 1px 1px 5px rgb(50 50 50 / 77%)">
+                <div class="border-bottom border-success" style="background: linear-gradient(to left ,#48a827, #299413, #70ba3e );">
+                    <div class="m-0 row pl-5 py-2">
+                        <h1 id="tituloSeccao" style="color:white; margin-bottom:1px !important;">FATURAS</h1>
+                    </div>
+                </div>
+                <div class="row px-4 p-3">
+                    <div class="col-6 col-md-4" id="colunasmenu">
+                        <a asp-controller="Faturas" asp-action="Criar" class="btn btn-success w-100 h-100" style="background-color:rgb(35, 141, 15)">
+                            <i class="fas fa-receipt fa-2x mb-3" id="iconmenu"></i><br> Inserir Fatura
+                        </a>
+                    </div>
+                    <div class="col-6 col-md-4">
+                        <a asp-controller="Faturas" asp-action="Index" class="btn btn-success w-100 h-100" style="background-color:rgb(35, 141, 15)">
+                            <i class="fas fa-table fa-2x mb-3" id="iconmenu"></i><br>Ver faturas
+                        </a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    }
+    @if (perms == 2)
+    {
+        <div class="col-12 col-md-6">
+            <div id="container">
+                <div id="pesquisa" class="border border-secondary rounded mt-2" style="width:100%;box-shadow: 1px 1px 5px rgb(50 50 50 / 77%)">
+                    <div class="border-bottom border-secondary" style="background: linear-gradient(to left ,#6c757d, #6c757d, #6c757d );">
+                        <div class="m-0 row pl-5 py-2">
+                            <h1 id="tituloSeccao" style="color:white; margin-bottom:1px !important;">ADMIN</h1>
+                        </div>
+                    </div>
+                    <div class="row px-4 p-3">
+                        <div class="col-6 col-md-4" id="colunasmenu">
+                            <a asp-controller="Fornecedores" asp-action="Index" class="btn btn-secondary w-100 h-100">
+                                <i class="fas fa-truck fa-2x mb-3" id="iconmenu"></i><br>Fornecedores
+                            </a>
+                        </div>
+                        <div class="col-6 col-md-4" id="colunasmenu">
+                            <a asp-controller="Utilizadores" asp-action="Index" class="btn btn-secondary w-100 h-100">
+                                <i class="fas fa-table fa-2x mb-3" id="iconmenu"></i><br>Utilizadores
+                            </a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    }
+
+</div>

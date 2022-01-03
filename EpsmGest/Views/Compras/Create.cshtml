@@ -1,0 +1,82 @@
+﻿@model EPSMGest.Models.ComprasModel
+
+@{
+    ViewData["Title"] = "Create";
+}
+<div class="p-1 p-md-3 p-lg-4">
+    <div class="card">
+        <h5 class="card-header" style="background-color:rgb(35, 141, 15);color:white;">INSERIR COMPRA</h5>
+        <div class="card-body">
+            <form asp-action="Create">
+                <div class="container-md">
+                    <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+                    <div class="col-md-5">
+                        <div class="form-group">
+                            <label asp-for="IdRequisicao" class="control-label">Requesição</label>
+                            @Html.DropDownListFor(x => x.IdRequisicao, new SelectList(ViewBag.Requesicoes, "Id", "Name"), "-- Selecione Requisção --", new { @class="form-control"})
+                            <span asp-validation-for="IdRequisicao" class="text-danger"></span>
+                        </div>
+                    </div>
+                    <div class="col-md-5">
+                        <div class="form-group">
+                            <label asp-for="IdCompra" class="control-label">Nº Compra</label>
+                            <input asp-for="IdCompra" class="form-control" required="required" />
+                            <span asp-validation-for="IdCompra" class="text-danger"></span>
+                        </div>
+                    </div>
+                    <div class="col-md-5">
+                        <div class="form-group">
+                            <label asp-for="Item" class="control-label"></label>
+                            <input asp-for="Item" class="form-control" required="required" />
+                            <span asp-validation-for="Item" class="text-danger"></span>
+                        </div>
+                    </div>
+                    <div class="col-md-5">
+                        <div class="form-group">
+                            <label asp-for="Date" class="control-label"></label>
+                            <input asp-for="Date" type="date" class="form-control" value="@DateTime.Now.ToString("yyyy-MM-dd")" required="required" />
+                            <span asp-validation-for="Date" class="text-danger"></span>
+                        </div>
+                    </div>
+                    <div class="col-md-5">
+                        <div class="form-check">
+                            <input asp-for="Aprovacao1" type="checkbox" class="form-check-input" />
+                            <label asp-for="Aprovacao1" class="form-check-label"></label>
+                        </div>
+                    </div>
+                    <div class="col-md-5">
+                        <div class="form-check">
+                            <input asp-for="Aprovacao2" type="checkbox" class="form-check-input" />
+                            <label asp-for="Aprovacao2" class="form-check-label"></label>
+                        </div>
+                    </div>
+                    <div class="col-md-5">
+                        <div class="form-group">
+                            <label asp-for="Pagamento" class="control-label"></label>
+                            <input asp-for="Pagamento" class="form-control" required="required" />
+                            <span asp-validation-for="Pagamento" class="text-danger"></span>
+                        </div>
+                    </div>
+                    <div class="col-md-5">
+                        <div class="form-group">
+                            <label asp-for="Observacoes" class="control-label">Observações</label>
+                            <input asp-for="Observacoes" class="form-control" />
+                            <span asp-validation-for="Observacoes" class="text-danger"></span>
+                        </div>
+                    </div>
+
+                    <div class="mt-2" style="text-align:right;">
+                        <a asp-action="Index" class="btn btn-primary">Voltar</a>
+                        <input type="submit" id="buttons" class="btn btn-success ml-2" value="Criar">
+                    </div>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+
+@section Scripts {
+    @{
+    await Html.RenderPartialAsync("_ValidationScriptsPartial");
+}
+}

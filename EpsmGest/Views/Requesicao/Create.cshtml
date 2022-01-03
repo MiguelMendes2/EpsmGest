@@ -1,0 +1,94 @@
+﻿@model EPSMGest.Models.RequisicoesModel
+
+@{
+    ViewData["Title"] = "Create";
+}
+<div class="p-1 p-md-3 p-lg-4">
+    <div class="card">
+        <h5 class="card-header" style="background-color:rgb(35, 141, 15);color:white;">INSERIR REQUISIÇÃO</h5>
+        <div class="card-body">
+            <form asp-action="Create">
+                <div class="container-md">
+
+                    <div class="col-md-5">
+                        <div class="form-group">
+                            <label asp-for="DepartamentoId" class="control-label">Departamento:</label><br />
+                            @Html.DropDownListFor(x => x.DepartamentoId, new SelectList(ViewBag.Departamentos, "DepartamentoId", "Nome"), "-- Selecione Requesição --", new { @class="form-control"})
+                            <span asp-validation-for="DepartamentoId" class="text-danger"></span>
+                        </div>
+                    </div>
+                    @if (User.IsInRole("Professor"))
+                    {
+                        <input asp-for="Requerente" value="@User.Identity.Name" hidden />
+                        <div class="col-md-5 mt-2">
+                            <div class="form-group">
+                                <label class="control-label">Requerente:</label>
+                                <input type="text" value="@User.Identity.Name" class="form-control" id="RequerenteInput" readonly />
+                            </div>
+                        </div>
+                        <div class="col-md-5 mt-2">
+                            <div class="form-check">
+                                <input class="form-check-input" type="checkbox" value="" id="RequerenteCheck" checked disabled>
+                                <label class="form-check-label" for="RequerenteCheck">
+                                    Requere é o utilizador?
+                                </label>
+                            </div>
+                        </div>
+                    }
+                    else
+                    {
+                        <div class="col-md-5 mt-2">
+                            <div class="form-group">
+                                <label asp-for="Requerente" class="control-label">Requerente:</label>
+                                <input asp-for="Requerente" class="form-control" id="RequerenteInput" />
+                                <span asp-validation-for="Requerente" class="text-danger"></span>
+                            </div>
+                        </div>
+                        <div class="col-md-5 mt-2">
+                            <div class="form-check">
+                                <input class="form-check-input" type="checkbox" value="" id="RequerenteCheck">
+                                <label class="form-check-label" for="RequerenteCheck">
+                                    Requere é o utilizador?
+                                </label>
+                            </div>
+                        </div>
+                    }
+                    <div class="col-md-5 mt-2">
+                        <div class="form-group">
+                            <label asp-for="Descricao" class="control-label">Descrição:</label>
+                            <input asp-for="Descricao" class="form-control" />
+                            <span asp-validation-for="Descricao" class="text-danger"></span>
+                        </div>
+                    </div>
+                    <div class="col-md-5 mt-2">
+                        <div class="form-group">
+                            <label asp-for="date" class="control-label">Data:</label>
+                            <input asp-for="date" type="date" class="form-control" value="@DateTime.Now.ToString("yyyy-MM-dd")" />
+                            <span asp-validation-for="date" class="text-danger"></span>
+                        </div>
+                    </div>
+                    <div class="mt-2" style="text-align:right;">
+                        <a asp-action="Index" class="btn btn-primary">Voltar</a>
+                        <input type="submit" id="buttons" class="btn btn-success ml-2" value="Criar">
+                    </div>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+<script>
+    $('#RequerenteCheck').change(function(){
+        if ($('#RequerenteCheck').is(':checked') == true){
+            $('#RequerenteInput').val('@User.Identity.Name').prop('readonly', true);
+            console.log('checked');
+        } else {
+            $('#RequerenteInput').val('').prop('readonly', false);
+            console.log('unchecked');
+        }
+    });
+</script>
+@section Scripts {
+    @{
+    await Html.RenderPartialAsync("_ValidationScriptsPartial");
+}
+}

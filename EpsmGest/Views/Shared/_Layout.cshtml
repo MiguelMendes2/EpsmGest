@@ -1,0 +1,56 @@
+﻿@{
+    var controllerName = ViewContext.RouteData.Values["controller"]?.ToString();
+    var pageName = ViewContext.RouteData.Values["action"]?.ToString();
+}
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>@ViewData["Title"] - EPSMGest</title>
+    <link rel="stylesheet" href="~/css/mainnovo.css">
+    <!-- Font Awesome -->
+    <link rel="stylesheet" href="~/lib/fontawesome-free/css/all.min.css">
+    <!-- Boostrap -->
+    <link rel="stylesheet" href="~/lib/bootstrap/dist/css/bootstrap.min.css" />
+    <script src="~/lib/jquery/dist/jquery.min.js"></script>
+    <script src="~/lib/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
+</head>
+<body>
+    <div class="container-fluid">
+        <div class="col-12 col-md-11 align-center" id="containerMain2">
+            <div class="row mt-3 justify-content-between" id="rowCabecalho" alt="epsm fundo" style="margin-right:0;margin-left:0;background-image: url('/imagens/banner4.jpg'); ">
+                <div class="col-1" style="color:white;">
+                    @if (controllerName == "Home")
+                    {
+                        @if (pageName != "Index")
+                        {
+                            <a asp-controller="" asp-action="" class="text-decoration-none"><i class="fas fa-chevron-left fa-3x" id="sairvoltar"></i></a>
+                        }
+                    }
+                    else
+                    {
+                        <a asp-controller="" asp-action="" class="text-decoration-none"><i class="fas fa-chevron-left fa-3x" id="sairvoltar"></i></a>
+                    }
+                </div>
+                <div class="col-2 ">
+                    <a asp-controller="" asp-action="" class="text-decoration-none"><img src="/imagens/epsmlogo.png" alt="epsm logo" id="logo" class="rounded dloat-left"></a>
+                </div>
+
+                <div class="col-1"></div>
+            </div>
+            <nav class="navbar navbar-expand-sm navbar-toggleable-sm navbar-light bg-white border-bottom box-shadow mb-3">
+                <div class="navbar-collapse collapse d-sm-inline-flex justify-content-between">
+                    <ul class="navbar-nav flex-grow-1"></ul>
+                    <partial name="_LoginPartial" />
+                </div>
+            </nav>
+            @RenderBody()
+        </div>
+    </div>
+    @await RenderSectionAsync("Scripts", required: false)
+    <!-- Toastr -->
+    <partial name="_Toastr" />
+</body>
+</html>

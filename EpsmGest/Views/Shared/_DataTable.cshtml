@@ -1,0 +1,42 @@
+﻿<!-- DataTables  & Plugins -->
+<link rel="stylesheet" href="~/lib/datatables-bs4/css/dataTables.bootstrap4.min.css">
+<link rel="stylesheet" href="~/lib/datatables-responsive/css/responsive.bootstrap4.min.css">
+<link rel="stylesheet" href="~/lib/datatables-buttons/css/buttons.bootstrap4.min.css">
+<script src="~/lib/datatables/jquery.dataTables.min.js"></script>
+<script src="~/lib/datatables-bs4/js/dataTables.bootstrap4.min.js"></script>
+<script src="~/lib/datatables-responsive/js/dataTables.responsive.min.js"></script>
+<script src="~/lib/datatables-responsive/js/responsive.bootstrap4.min.js"></script>
+<script src="~/lib/datatables-buttons/js/dataTables.buttons.min.js"></script>
+<script src="~/lib/datatables-buttons/js/buttons.bootstrap4.min.js"></script>
+<script src="~/lib/datatables-buttons/js/buttons.html5.min.js"></script>
+<script src="~/lib/datatables-buttons/js/buttons.print.min.js"></script>
+<script src="~/lib/datatables-buttons/js/buttons.colVis.min.js"></script>
+
+<script>
+    $(function () {
+        $('#ContentTable').DataTable({
+            "paging": true,
+            "lengthChange": true,
+            "searching": true,
+            "ordering": true,
+            "info": true,
+            "autoWidth": false,
+            "responsive": true,
+            "buttons": [
+                'test'
+            ],
+            "language": {
+                "lengthMenu": "Mostrando _MENU_ linhas por pagina",
+                "zeroRecords": "Nada encontrado",
+                "info": "pagina _PAGE_ de _PAGES_",
+                "infoEmpty": "Nenhum registro disponível",
+                "infoFiltered": "(filtrado de _MAX_ registros no total)",
+                "search": "Pesquisa:",
+                "paginate": {
+                    "next": "Próximo",
+                    "previous": "Anterior"
+                }
+            }
+        });
+    });
+</script>

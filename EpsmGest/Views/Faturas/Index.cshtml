@@ -1,0 +1,73 @@
+﻿@model IEnumerable<EPSMGest.Models.FaturasModel>
+
+@{
+    ViewData["Title"] = "Index";
+}
+
+<div class="p-1 p-md-3 p-lg-4">
+    <div class="card">
+        <h5 class="card-header" style="background-color:rgb(35, 141, 15);color:white;">FATURAS</h5>
+        <div class="card-body">
+            <table id="ContentTable" class="table table-bordered table-hover">
+                <thead>
+                    <tr>
+                        <th>
+                            Nº Fatura
+                        </th>
+                        <th>
+                            Valor
+                        </th>
+                        <th>
+                            Data
+                        </th>
+                        <th>
+                            Fornecedor
+                        </th>
+                        <th>
+                            Observações
+                        </th>
+                        <td>
+                            <a asp-action="Create" class="btn btn-sm btn-primary"><i class="fas fa-plus"></i> Nova</a>
+                        </td>
+                    </tr>
+                </thead>
+                <tbody>
+                    @if (Model != null)
+                    {
+                        @if (Model.Count() != 0)
+                        {
+                            @foreach (var item in Model)
+                            {
+                                <tr>
+                                    <td>
+                                        @Html.DisplayFor(modelItem => item.NrFatura)
+                                    </td>
+                                    <td>
+                                        @Html.DisplayFor(modelItem => item.ValorTotal)
+                                    </td>
+                                    <td>
+                                        @item.Data.ToString("dd-MM-yyyy")
+                                    </td>
+                                    <td>
+                                        @Html.DisplayFor(modelItem => item.Fornecedor)
+                                    </td>
+                                    <td>
+                                        @Html.DisplayFor(modelItem => item.Observacoes)
+                                    </td>
+                                    <td>
+                                        <a asp-action="Detalhes" asp-route-id="@item.FaturasId" class="btn btn-primary"><i class="fas fa-clipboard-list"></i></a>
+                                    </td>
+                                </tr>
+                            }
+                        }
+                        else
+                        {
+                            <tr><td colspan="6" class="text-center">Vazio</td></tr>
+                        }
+                    }
+                </tbody>
+            </table>
+        </div>
+    </div>
+</div>
+<partial name="../Shared/_DataTable" />
