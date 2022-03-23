@@ -1,0 +1,144 @@
+﻿@model EPSMGest.Models.InvoiceModel
+
+@{
+    ViewData["Title"] = "Detalhes";
+}
+
+<div class="p-1 p-md-3 p-lg-4">
+    <div class="card">
+        <h5 class="card-header" style="background-color:rgb(35, 141, 15);color:white;">FATURA</h5>
+        <div class="card-body">
+            <dl class="row">
+                <dt class="col-sm-2">
+                    Nº Fatura
+                </dt>
+                <dd class="col-sm-10">
+                    @Html.DisplayFor(model => model.InvoiceNumber)
+                </dd>
+                <dt class="col-sm-2">
+                    Valor Total
+                </dt>
+                <dd class="col-sm-10">
+                    @Html.DisplayFor(model => model.TotalPrice)
+                </dd>
+                <dt class="col-sm-2">
+                    @Html.DisplayNameFor(model => model.Date)
+                </dt>
+                <dd class="col-sm-10">
+                    @Model.Date.ToString("dd/MM/yyyy")
+                </dd>
+                <dt class="col-sm-2">
+                    Fornecedor
+                </dt>
+                <dd class="col-sm-10">
+                    if(item.Supplier != null){
+                        <text>@Model.Supplier.Name</text>
+                    }else{
+                        <text>S/Fornecedor</text>
+                    } 
+                </dd>
+                <dt class="col-sm-2">
+                    Compra
+                </dt>
+                @if (Model.IdPurchase != null)
+                {
+                    <dd class="col-sm-10">
+                        <a asp-controller="Compras" asp-action="Detalhes" asp-route-id="@Model.IdPurchase" target="_blank">Detalhes</a>
+                    </dd>
+                }
+                else
+                {
+                    <dd class="col-sm-10"></dd>
+                }
+                <dt class="col-sm-2">
+                    Observações
+                </dt>
+                <dd class="col-sm-10">
+                    @Html.DisplayFor(model => model.Observacoes)
+                </dd>
+            </dl>
+            <div class="mt-2">
+                <a asp-action="Index" class="btn btn-secondary"><i class="fas fa-arrow-left"></i> Voltar</a>
+                <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#editModel"><i class="fas fa-edit"></i> Editar</button>
+                <button type="button" class="btn btn-danger" data-bs-toggle="modal" data-bs-target="#deleteModel"><i class="fas fa-trash-alt"></i> Apagar</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+
+<!-- Delete  Modal -->
+<div class="modal fade" id="deleteModel" tabindex="-1" aria-labelledby="deleteModelLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="exampleModalLabel">Apagar Fatura</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+                Quer mesmo apagar esta fatura?
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancelar</button>
+                <a asp-action="Apagar" asp-route-id="@Model.InvoiceId" class="btn btn-danger">Apagar</a>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Edit  Modal -->
+<div class="modal fade" id="editModel" tabindex="-1" aria-labelledby="editModelLabel" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-scrollable">
+        <div class="modal-content">
+            <form asp-action="Editar">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="exampleModalLabel">Editar Fatura</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                    <input type="hidden" asp-for="InvoiceId" />
+                    <div class="form-group">
+                        <label asp-for="InvoiceNumber" class="control-label">Nº Fatura</label>
+                        <input asp-for="InvoiceNumber" class="form-control" required="required" />
+                        <span asp-validation-for="InvoiceNumber" class="text-danger"></span>
+                    </div>
+                    <div class="form-group">
+                        <label asp-for="TotalPrice" class="control-label">Valor Total</label>
+                        <input asp-for="TotalPrice" class="form-control" required="required" />
+                        <span asp-validation-for="TotalPrice" class="text-danger"></span>
+                    </div>
+                    <div class="form-group">
+                        <label asp-for="Date" class="control-label"></label>
+                        <input asp-for="Date" type="date" class="form-control" required="required" />
+                        <span asp-validation-for="Date" class="text-danger"></span>
+                    </div>
+                    <div class="form-group">
+                        <label asp-for="Supplier" class="control-label">Fornecedor</label>
+                        @Html.DropDownListFor(x => x.SupplierId, new SelectList(ViewBag.Fornecedor, "Id", "Name"), "-- Selecione Fornecedor --", new { @class="form-control", @required="required"})
+                        <span asp-validation-for="Supplier" class="text-danger"></span>
+                    </div>
+                    <div class="form-group">
+                        <label asp-for="IdPurchase" class="control-label">Compra</label>
+                        @Html.DropDownListFor(x => x.IdPurchase, new SelectList(ViewBag.Compras, "Id", "Name"), "-- Selecione Compra --", new { @class="form-control", @required="required"})
+                        <span asp-validation-for="IdPurchase" class="text-danger"></span>
+                    </div>
+                    <div class="form-group">
+                        <label asp-for="Observacoes" class="control-label">Observações</label>
+                        <input asp-for="Observacoes" class="form-control" />
+                        <span asp-validation-for="Observacoes" class="text-danger"></span>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancelar</button>
+                    <button type="submit" class="btn btn-primary">Editar</button>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+@section Scripts {
+    @{
+    await Html.RenderPartialAsync("_ValidationScriptsPartial");
+    }
+}

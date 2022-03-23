@@ -54,7 +54,7 @@ namespace EpsmGest.Controllers
                     result = await UserManager.AddToRoleAsync(user, model.Role);
                     if (result.Succeeded)
                     {
-                        TempData["Sucess"] = "Utilizador criado com sucesso!";
+                        TempData["Success"] = "Utilizador criado com sucesso!";
                         return RedirectToAction("Index");
                     }
                     if (!result.Succeeded)
@@ -74,21 +74,26 @@ namespace EpsmGest.Controllers
 
         [HttpGet]
         [Route("Detalhes/{id}")]
-        public IActionResult Details(string id)
+        public async Task<IActionResult> Details(string id)
         {
             var user = Context.Users.FirstOrDefault(x => x.Id == id);
             if (user == null)
-                return NotFound();
-            var userRole = Context.UserRoles.FirstOrDefault(x => x.UserId == id);
-            if (userRole == null)
-                return NotFound();
-            var role = Context.Roles.FirstOrDefault(x => x.Id == userRole.RoleId);
+			{
+                TempData["Error"] = "Utilizador não foi encontrado.";
+                return RedirectToAction("Index");
+            }
+            var roles = await UserManager.GetRolesAsync(user);
+            if (roles == null)
+			{
+                TempData["Error"] = "Utilizador que selecionou não possui cargos, contacte o administrador.";
+                return RedirectToAction("Index");
+			}
             var model = new UserViewModel
             {
                 Id = id,
                 UserName = user.UserName,
                 Email = user.Email,
-                Role = role.Name
+                Role = roles[0]
             };
             ViewBag.Roles = UsersService.GetRoles().Select(x=> new DropdownViewModel 
             { 
@@ -130,7 +135,7 @@ namespace EpsmGest.Controllers
             {
                 TempData["Error"] = "Não foi possivel adicionar o cargo selecionado ao utilizador";
             }
-            TempData["Sucess"] = "Cargo de utilizador alterado com sucesso!";
+            TempData["Success"] = "Cargo de utilizador alterado com sucesso!";
             return RedirectToAction("Detalhes", "Utilizadores", new { id = model.Id });
         }
 
@@ -147,6 +152,8 @@ namespace EpsmGest.Controllers
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> ChangePassword(EditUserPasswordViewModel model, string id)
         {
+            if (User.Identity == null)
+                return NotFound();
             string currentUserName = User.Identity.Name;
             var user = await UserManager.FindByIdAsync(id);
             if (user == null)
@@ -165,7 +172,7 @@ namespace EpsmGest.Controllers
                 var result = await UserManager.ResetPasswordAsync(user, token, model.Password);
                 if (result.Succeeded)
                 {
-                    TempData["Sucess"] = "Password alterada com sucess!";
+                    TempData["Success"] = "Password alterada com sucess!";
                     return RedirectToAction("Detalhes", "Utilizadores", new { id = id });
                 }
                 foreach (var error in result.Errors)
@@ -181,6 +188,8 @@ namespace EpsmGest.Controllers
         [Route("RemoveUser/{id}")]
         public async Task<IActionResult> RemoveUser(string id)
         {
+            if (User.Identity == null)
+                return NotFound();
             string currentUserName = User.Identity.Name;
             var user = await UserManager.FindByIdAsync(id);
             if (user.UserName == currentUserName)
@@ -191,7 +200,7 @@ namespace EpsmGest.Controllers
             var result = await UserManager.DeleteAsync(user);
             if (result.Succeeded)
             {
-                TempData["Sucess"] = "Utilizador removido com sucesso!";
+                TempData["Success"] = "Utilizador removido com sucesso!";
                 return RedirectToAction("Index", "Utilizadores");
             }
             foreach (var error in result.Errors)

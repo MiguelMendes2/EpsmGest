@@ -1,0 +1,49 @@
+﻿@model EPSMGest.Models.SupplierModel
+
+@{
+    ViewData["Title"] = "Create";
+}
+
+<div class="p-1 p-md-3 p-lg-4">
+    <div class="card">
+        <h5 class="card-header" style="background-color:rgb(35, 141, 15);color:white;">INSERIR FORNECEDOR</h5>
+        <div class="card-body">
+            <form asp-action="Create">
+                <div class="container-md">
+                    <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+                    <div class="col-md-5">
+                        <div class="form-group">
+                            <label asp-for="Name" class="control-label"></label>
+                            <input asp-for="Name" class="form-control" required="required" />
+                            <span asp-validation-for="Name" class="text-danger"></span>
+                        </div>
+                    </div>
+                    <div class="col-md-5">
+                        <div class="form-group">
+                            <label asp-for="Address" class="control-label"></label>
+                            <input asp-for="Address" class="form-control" />
+                            <span asp-validation-for="Address" class="text-danger"></span>
+                        </div>
+                    </div>
+                    <div class="col-md-5">
+                        <div class="form-group">
+                            <label asp-for="NIF" class="control-label"></label>
+                            <input asp-for="NIF" pattern=".{9,9}" class="form-control" required="required" />
+                            <span asp-validation-for="NIF" class="text-danger"></span>
+                        </div>
+                    </div>
+                    <div class="mt-2" style="text-align:right;">
+                        <a asp-action="Index" class="btn btn-primary">Voltar</a>
+                        <input type="submit" id="buttons" class="btn btn-success ml-2" value="Criar">
+                    </div>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+
+@section Scripts {
+    @{
+    await Html.RenderPartialAsync("_ValidationScriptsPartial");
+}
+}

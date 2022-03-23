@@ -19,10 +19,10 @@ toastr.options = {
   "hideMethod": "fadeOut"
 }
 </script>
-@if(TempData["Sucess"] != null)
+@if(TempData["Success"] != null)
 {
     <script type="text/javascript">
-        toastr.success('@TempData["Sucess"]'); 
+        toastr.success('@TempData["Success"]'); 
     </script>
 }
 @if(TempData["Error"] != null)

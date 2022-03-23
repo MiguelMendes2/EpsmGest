@@ -1,0 +1,127 @@
+﻿@model EpsmGest.ViewModel.Purchase.FornecedorEvaluationViewModel
+
+@{
+    ViewData["Title"] = "Index";
+}
+<div class="row mx-0">
+    <div class="col-11 col-md-3 mx-auto mx-md-0 border-md-end border-2">
+        <partial name="_Nav" />
+    </div>
+    <div class="col-11 col-md-9 mx-auto mx-md-0">
+        <nav class="nav navbar-dark justify-content-end">
+            @if(Model.Stage == 3){
+                <button class="nav-item btn btn-sm btn-primary px-2 py-1 mx-1" type="button" data-bs-toggle="modal" data-bs-target="#EditModal">
+                    <i class="fas fa-edit"></i> Editar
+                </button>
+            }
+        </nav>
+        <dl class="row border-bottom border-1">
+            <dt class="col-sm-3">
+                Descrição
+            </dt>
+            <dd class="col-sm-9">
+                @Html.DisplayFor(model => model.Description)
+            </dd>
+        </dl>
+        @foreach(var Fornecedor in Model.Evaluations)
+        {
+            <div class="row mx-0">
+                <div class="col-11 mx-auto col-md-12 mx-md-0">
+                    <h3>@Fornecedor.SupplierName</h3>
+                    <table class="table table-bordered">
+                        <thead>
+                            <tr>
+                                <th>Descrição</th>
+                                <th>Critério</th>
+                                <th>Cumprimento</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td>Condições de pagamento</td>
+                                <td>Cumpre = 25% | Não cumpre = 0%</td>
+                                <td>@if (@Fornecedor.Param0) {<text>Cumpre</text> }else{<text>Não Cumpre</text>}</td>
+                            </tr>
+                            <tr>
+                                <td>Cumprimento de Requisitos Preestabelecidos</td>
+                                <td>Cumpre = 30% | Não cumpre = 0%</td>
+                                <td>@if (@Fornecedor.Param1) {<text>Cumpre</text> }else{<text>Não Cumpre</text>}</td>
+                            </tr>
+                            <tr>
+                                <td>Prazo de Entrega | Tempo de Resposta</td>
+                                <td>Cumpre = 30% | Não cumpre = 0%</td>
+                                <td>@if (@Fornecedor.Param2) {<text>Cumpre</text> }else{<text>Não Cumpre</text>}</td>
+                            </tr>
+                            <tr>
+                                <td>Preço</td>
+                                <td>Cumpre = 15% | Não cumpre = 0%</td>
+                                <td>@if (@Fornecedor.Param3) {<text>Cumpre</text> }else{<text>Não Cumpre</text>}</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        }
+    </div>
+    <!-- Modals -->
+        @if(Model.Stage == 3)
+        {
+            <!-- Edit Modal -->
+            <div class="modal fade" id="EditModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+                <div class="modal-dialog">
+                    <div class="modal-content">
+                        <form method="post" asp-action="SetAvaliation">
+                        <div class="modal-header">
+                            <h5 class="modal-title" id="exampleModalLabel">Editar Avaliação</h5>
+                            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                        </div>
+                        <div class="modal-body">
+                            <input asp-for="Id" hidden/>
+                            @for(var i = 0; i < Model.Evaluations.Count; i++)
+                            {
+                                <div class="my-1">
+                                    <h2>@Model.Evaluations[i].SupplierName</h2>
+                                    <input asp-for="@Model.Evaluations[i].SupplierId" hidden/>
+                                    <input asp-for="@Model.Evaluations[i].EvalutionId" hidden/>
+                                    <table class="table">
+                                        <thead>
+                                            <tr>
+                                                <th class="col">Descrição</th>
+                                                <th class="col"></th>
+                                            </tr>
+                                        </thead>
+                                        <tbody>
+                                            <tr>
+                                                <td>Condições de pagamento</td>
+                                                <td><input class="form-check-input" asp-for="@Model.Evaluations[i].Param0" /></td>
+                                            </tr>
+                                            <tr>
+                                                <td>Cumprimento de Requisitos Preestabelecidos</td>
+                                                <td><input class="form-check-input" asp-for="@Model.Evaluations[i].Param1" /></td>
+                                            </tr>
+                                            <tr>
+                                                <td>Prazo de Entrega | Tempo de Resposta</td>
+                                                <td><input class="form-check-input" asp-for="@Model.Evaluations[i].Param2" /></td>
+                                            </tr>
+                                            <tr>
+                                                <td>Preço</td>
+                                                <td><input class="form-check-input" asp-for="@Model.Evaluations[i].Param3" /></td>
+                                            </tr>
+                                        </tbody>
+                                    </table>
+                                </div>
+                            }
+                            
+                        </div>
+                        <div class="modal-footer">
+                            <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Fechar</button>
+                            <button type="submit" class="btn btn-primary">Editar</button>
+                        </div>
+                        </form>                  
+                    </div>
+                </div>
+            </div>
+        }
+</div>
+@section Scripts {
+}

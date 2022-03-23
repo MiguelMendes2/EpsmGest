@@ -1,0 +1,95 @@
+﻿@{
+    string actionName = ViewContext.RouteData.Values["action"].ToString();
+    int Stage = 0;
+    if (ViewBag.Stage != null)
+        Stage = ViewBag.Stage;
+}
+
+<nav class="nav nav-pills flex-row flex-md-column">
+    <a asp-action="Necessidade" asp-route-id="@ViewBag.Id" class="flex-sm-fill text-sm-center  nav-link w-100 @if(actionName == "Necessidade"){ <text>active</text>}">
+        <span class="GreenBtn"><i class="fas fa-check-circle"></i></span> Necessidade
+    </a>
+    <a  asp-action="ConsultaMercado" asp-route-id="@ViewBag.Id" class="flex-sm-fill text-sm-center nav-link w-100 @if(actionName == "ConsultaMercado"){ <text>active</text>}">
+        @if(Stage == 0)
+        {
+            <text><span class="YellowBtn"><i class="fas fa-minus-circle"></i>&nbsp;</span></text>
+        }
+        else
+        {
+            <text><span class="GreenBtn"><i class="fas fa-check-circle"></i>&nbsp;</span></text>
+        }
+        
+        Consulta de Mercado
+    </a>
+    <a asp-action="Parecer1" asp-route-id="@ViewBag.Id" class="flex-sm-fill text-sm-center  nav-link w-100 @if(actionName == "Parecer1"){ <text>active</text>}">
+        @if(Stage == 0)
+        {
+            <text><span class="RedBtn"><i class="fas fa-times-circle"></i>&nbsp;</span></text>
+        }
+        else if(Stage == 1)
+        {
+            <text><span class="YellowBtn"><i class="fas fa-minus-circle"></i>&nbsp;</span></text>
+        }
+        else
+        {
+            <text><span class="GreenBtn"><i class="fas fa-check-circle"></i>&nbsp;</span></text>
+        }
+        Parecer 1
+    </a>
+    <a asp-action="Parecer2" asp-route-id="@ViewBag.Id" class="flex-sm-fill text-sm-center  nav-link w-100 @if(ViewBag.TotalPrice <= 250){<text>disabled</text>} @if(actionName == "Parecer1"){ <text>active</text>}s">
+        @if(Stage <= 1)
+        {
+            <text><span class="RedBtn"><i class="fas fa-times-circle"></i>&nbsp;</span></text>
+        }
+        else if(Stage == 2)
+        {
+            <text><span class="YellowBtn"><i class="fas fa-minus-circle"></i>&nbsp;</span></text>
+        }
+        else
+        {
+            <text><span class="GreenBtn"><i class="fas fa-check-circle"></i>&nbsp;</span></text>
+        }
+        Parecer 2
+    </a>
+    <a class="flex-sm-fill text-sm-center  nav-link w-100">
+        @if(Stage == 3)
+        {
+            <text><span class="GreenBtn"><i class="fas fa-check-circle"></i>&nbsp;</span></text>
+            
+        }
+        else
+        {
+            <text><span class="RedBtn"><i class="fas fa-times-circle"></i>&nbsp;</span></text>
+        }
+        Adjudicação
+    </a>
+    <a asp-action="Avaliation" asp-route-id="@ViewBag.Id" class="flex-sm-fill text-sm-center  nav-link w-100">
+        @if(Stage == 4)
+        {
+            <text><span class="GreenBtn"><i class="fas fa-check-circle"></i>&nbsp;</span></text>
+
+        }
+        else if(Stage == 3)
+        {
+            <text><span class="YellowBtn"><i class="fas fa-minus-circle"></i>&nbsp;</span></text>
+        }
+        else
+        {
+            <text><span class="RedBtn"><i class="fas fa-times-circle"></i>&nbsp;</span></text>
+        }
+        Avaliação
+    </a>
+</nav>
+<style>
+    .GreenBtn{
+        color:#309143;
+    }
+
+    .YellowBtn{
+        color:#e39802;
+    }
+
+    .RedBtn{
+        color:#b60a1c;
+    }
+</style>

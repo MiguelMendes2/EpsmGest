@@ -1,0 +1,142 @@
+﻿@model EpsmGest.ViewModel.Purchase.ConsultaMercadoViewModel
+@{
+    ViewData["Title"] = "Consulta Mercado";
+    int counter = 0;
+    @if(Model.PurchaseItem != null){
+        counter = @Model.PurchaseItem.Count;
+    }
+    
+}
+<div class="row mx-0">
+    <div class="col-11 col-md-3 mx-auto mx-md-0 border-md-end border-2">
+        <partial name="_Nav" />
+    </div>
+    <div class="col-11 col-md-9 mx-auto mx-md-0">
+        @if (Model.Stage == 2)
+        {
+            <nav class="nav navbar-dark justify-content-end">
+                <button class="nav-item btn btn-sm btn-primary px-2 py-1 mx-1" type="button" data-bs-toggle="modal" data-bs-target="#EditModal">
+                    <i class="fas fa-edit"></i> Editar
+                </button>
+            </nav>
+        }
+        <dl class="row border-bottom border-1">
+            <dt class="col-sm-3">
+                Compra
+            </dt>
+            <dd class="col-sm-9">
+                @Html.DisplayFor(model => model.Category)
+            </dd>
+            <dt class="col-sm-3">
+                Descrição
+            </dt>
+            <dd class="col-sm-9">
+                @Html.DisplayFor(model => model.Description)
+            </dd>
+        </dl>
+        <div class="row mx-0">
+            <div class="col-11 mx-auto col-md-7 mx-md-0">
+                <table class="table table-bordered">
+                    <tr>
+                        <th></th>
+                        <th>Fornecedor</th>
+                        <th>Material/Serviço</th>
+                        <th>Quant.</th>
+                        <th>Preço</th>
+                        <th>Sub-total</th>
+                    </tr>
+                    @if(Model.PurchaseItem != null)
+                    {
+                        @foreach(var Item in Model.PurchaseItem){
+                            decimal total = Item.Price * Item.Quantity;
+                            @if(Item.Supplier == null){
+                                <tr>
+                                    <td><input asp-for="@Item.Aprovation2" class="form-check-input" disabled></td>
+                                    <td>Sem fornecedor Selecionado</td>
+                                    <td>@Item.Item</td>
+                                    <td>@Item.Quantity</td>
+                                    <td>@if(Item.Price != 0){<text>@Item.Price</text>}else{<text>0,00</text>}<text>&nbsp;€</text></td>
+                                    <td>@total<text>&nbsp;€</text></td>
+                                </tr>
+                            }
+                            else
+                            {
+                                <tr>
+                                    <td><input asp-for="@Item.Aprovation2" class="form-check-input" disabled></td>
+                                    <td>@Item.Supplier.Name</td>
+                                    <td>@Item.Item</td>
+                                    <td>@Item.Quantity</td>
+                                    <td>@if(Item.Price != 0){<text>@Item.Price</text>}else{<text>0,00</text>}<text>&nbsp;€</text></td>
+                                    <td>@total<text>&nbsp;€</text></td>
+                                </tr>
+                            }
+                        }
+                    }
+                    else
+                    {
+                        <tr>
+                            <td colspan="2">Vazio</td>
+                        </tr>
+                    }
+                </table>
+                <div class="mb-3">
+                    <label for="exampleInputEmail1" class="form-label">Preço Total</label>
+                    <input value="@Model.TotalPrice €" class="form-control" disabled />
+                </div>
+                <a asp-action="CloseParecer2" asp-route-id="@Model.Id" class="btn btn-primary @if(Model.Stage != 1){<text>disabled</text>}"><i class="fas fa-check"></i> Fechar Parecer 1</a>
+            </div>
+        </div>
+        <!-- Modals -->
+        @if(Model.Stage == 2)
+        {
+            <!-- Edit Modal -->
+            <div class="modal fade" id="EditModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+                <div class="modal-dialog">
+                    <div class="modal-content">
+                        <form method="post" asp-action="SetParecer2">
+                        <div class="modal-header">
+                            <h5 class="modal-title" id="exampleModalLabel">Aprovar Compra</h5>
+                            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                        </div>
+                        <div class="modal-body">
+                            <input asp-for="@Model.Id" hidden/>
+                            <input asp-for="@Model.Stage" hidden/>
+                            <div class="my-1">
+                                <table class="table">
+                                    <thead>
+                                        <tr>
+                                            <th class="col"></th>
+                                            <th class="col w-50">Fornecedor</th>
+                                            <th class="col w-25">Item</th>
+                                            <th class="col w-25">Preço</th>                                            
+                                        </tr>
+                                    </thead>
+                                    <tbody id="ProductsTable">
+                                        @if(counter > 0)
+                                        {
+                                            @for(var i = 0; i < counter; i++){
+                                                <tr>
+                                                    <td class="p-1"><input asp-for="@Model.PurchaseItem[i].Aprovation2"></td>
+                                                    <td class="p-1"><input asp-for="@Model.PurchaseItem[i].Id" hidden />@if(Model.PurchaseItem[i].Supplier != null){<text>@Model.PurchaseItem[i].Supplier.Name</text>}</td>
+                                                    <td class="p-1">@Model.PurchaseItem[i].Item</td>
+                                                    <td class="p-1">@Model.PurchaseItem[i].Price<text>€</text></td>
+                                                </tr>
+                                            }
+                                        }
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div>
+                        <div class="modal-footer">
+                            <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Fechar</button>
+                            <button type="submit" class="btn btn-primary">Editar</button>
+                        </div>
+                        </form>                  
+                    </div>
+                </div>
+            </div>
+        }
+    </div>
+</div>
+@section Scripts {
+}

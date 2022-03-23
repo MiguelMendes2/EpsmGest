@@ -3,21 +3,21 @@ using EpsmGest.Helpers;
 using EpsmGest.Services.Users;
 using EpsmGest.Services.Utilizadores;
 using EPSMGest.Services;
-using EPSMGest.Services.Compras;
-using EPSMGest.Services.Faturas;
-using EPSMGest.Services.Fornecedores;
-using EPSMGest.Services.Requisicao;
+using EPSMGest.Services.Purchase;
+using EPSMGest.Services.Invoice;
+using EPSMGest.Services.Supplier;
+using EPSMGest.Services.Requisition;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 
 var builder = WebApplication.CreateBuilder(args);
 
 // Add services to the container.
-builder.Services.AddScoped<IComprasService, ComprasService>();
-builder.Services.AddScoped<IDepartamentoService, DepartamentoService>();
-builder.Services.AddScoped<IFaturasService, FaturasService>();
-builder.Services.AddScoped<IFornecedoresService, FornecedoresService>();
-builder.Services.AddScoped<IRequisicaoService, RequisicaoService>();
+builder.Services.AddScoped<IPurchaseService, PurchaseService>();
+builder.Services.AddScoped<IDepartmentService, DepartmentService>();
+builder.Services.AddScoped<IInvoiceService, InvoiceService>();
+builder.Services.AddScoped<ISupplierService, SupplierService>();
+builder.Services.AddScoped<IRequisitionService, RequisitionService>();
 builder.Services.AddScoped<IUsersService, UsersService>();
 
 var connectionString = builder.Configuration.GetConnectionString("DefaultConnection");

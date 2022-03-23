@@ -1,0 +1,160 @@
+﻿@model EpsmGest.ViewModel.Purchase.NecessidadeViewModel
+
+@{
+    ViewData["Title"] = "Index";
+    int counter = 0;
+    @if(Model.PurchaseItem != null){
+        counter = @Model.PurchaseItem.Count;
+    }
+}
+<div class="row mx-0">
+    <div class="col-11 col-md-3 mx-auto mx-md-0 border-md-end border-2">
+        <partial name="_Nav" />
+    </div>
+    <div class="col-11 col-md-9 mx-auto mx-md-0">
+        <nav class="nav navbar-dark justify-content-end">
+            @if(Model.Stage == 0){
+                <button class="nav-item btn btn-sm btn-primary px-2 py-1 mx-1" type="button" data-bs-toggle="modal" data-bs-target="#EditModal">
+                    <i class="fas fa-edit"></i> Editar
+                </button>
+            }            
+            <button class="nav-item btn btn-sm btn-danger px-2 py-1 mx-1" type="button" data-bs-toggle="modal" data-bs-target="#DeleteModal">
+                <i class="fas fa-trash"></i> Apagar
+            </button>
+        </nav>
+        <dl class="row border-bottom border-1">
+            <dt class="col-sm-3">
+                Compra
+            </dt>
+            <dd class="col-sm-9">
+                @Html.DisplayFor(model => model.PurchaseId)
+            </dd>
+            <dt class="col-sm-3">
+                Departamento
+            </dt>
+            <dd class="col-sm-9">
+                @Html.DisplayFor(model => model.Department)
+            </dd>
+            <dt class="col-sm-3">
+                Descrição
+            </dt>
+            <dd class="col-sm-9">
+                @Html.DisplayFor(model => model.Description)
+            </dd>
+            <dt class="col-sm-3">
+                Requesição
+            </dt>
+            <dd class="col-sm-9">
+                <a asp-controller="Requesicao" asp-action="Detalhes" asp-route-id="@Model.RequisitionId" target="_blank">
+                    @Html.DisplayFor(model => model.RequisitionId)
+                </a>
+            </dd>
+        </dl>
+        <div class="row mx-0">
+            <div class="col-11 mx-auto col-md-6 mx-md-0">
+                <table class="table table-bordered">
+                    <tr>
+                        <th>Quantidade</th>
+                        <th>Material/Serviço</th>
+                    </tr>
+                    @if(Model.PurchaseItem != null)
+                    {
+                        @foreach(var Item in Model.PurchaseItem){
+                            <tr>
+                                <td>@Item.Quantity</td>
+                                <td>@Item.Name</td>
+                            </tr>
+                        }
+                    }
+                    else
+                    {
+                        <tr>
+                            <td colspan="2">Vazio</td>
+                        </tr>
+                    }
+                </table>
+            </div>
+        </div>
+        <!-- Modals -->
+        <!-- Edit Modal -->
+        <div class="modal fade" id="EditModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+            <div class="modal-dialog">
+                <div class="modal-content">
+                    <form method="post" asp-action="EditNecessidade">
+                    <div class="modal-header">
+                        <h5 class="modal-title" id="exampleModalLabel">Editar Compra</h5>
+                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                    </div>
+                    <div class="modal-body">
+                        <input asp-for="Id" hidden/>
+                        <input asp-for="PurchaseId" hidden/>
+                        <input asp-for="RequisitionId" hidden/>
+                        <div class="my-1">
+                            <div class="form-group">
+                                <label asp-for="DepartamentId" class="control-label">Departamento:</label><br />
+                                @Html.DropDownListFor(x => x.DepartamentId, new SelectList(ViewBag.Departamentos, "DepartamentoId", "Nome"), "-- Selecione Departamento --", new { @class="form-control", @required="required"})
+                                <span asp-validation-for="DepartamentId" class="text-danger"></span>
+                            </div>
+                        </div>
+                        <div class="my-1">
+                            <div class="form-group">
+                                <label asp-for="Description" class="control-label">Descrição:</label>
+                                <input asp-for="Description" class="form-control" required/>
+                                <span asp-validation-for="Description" class="text-danger"></span>
+                            </div>
+                        </div>
+                        <div class="my-1">
+                            <table class="table">
+                                <thead>
+                                    <tr>
+                                        <th class="col">Nome</th>
+                                        <th class="col">Quantidade <button class="btn-sm btn-success float-end" type="button" onclick="addRow()"><i class="fas fa-plus"></i></button></th>
+                                    </tr>
+                                </thead>
+                                <tbody id="ProductsTable">
+                                    @if(Model.PurchaseItem != null)
+                                    {
+                                        @for(var i = 0; i < counter; i++){
+                                            <tr>
+                                                <td><input asp-for="@Model.PurchaseItem[i].Id" hidden /><input type="text" class="form-control" asp-for="@Model.PurchaseItem[i].Name"></td>
+                                                <td><input type="number" class="form-control w-75" asp-for="@Model.PurchaseItem[i].Quantity" style="display:inline-flex"><button class="btn-sm btn-danger float-end" type="button" onclick="removeRow(this)"><i class="fas fa-trash-alt"></i></button></td>
+                                            </tr>
+                                        }
+                                    }
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Fechar</button>
+                        <button type="submit" class="btn btn-primary">Editar</button>
+                    </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+        <!-- Delete Modal -->
+    </div>
+</div>
+@section Scripts {
+    <script>
+        var counter = @counter;   
+        var table = document.getElementById("ProductsTable");
+        counter++;
+        function addRow() {
+            var row = table.insertRow(-1);
+            var cell1 = row.insertCell(0);
+            var cell2 = row.insertCell(1);
+            var rowsSize = table.rows.length;
+            cell1.innerHTML = '<input type="text" class="form-control" name="PurchaseItem['+ counter +'].Name"/>';
+            cell2.innerHTML = '<input type="number" class="form-control w-75" name="PurchaseItem['+ counter +'].Quantity" style="display:inline-flex;"/>'+
+            '<button class="btn-sm btn-danger float-end" type="button" onclick="removeRow(this)"><i class="fas fa-trash-alt"></i></button>';
+            counter++;
+            console.log(counter);
+        }
+        function removeRow(btn){
+            var row = btn.parentNode.parentNode;
+            row.parentNode.removeChild(row);
+        }
+    </script>
+}
