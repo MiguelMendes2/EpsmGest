@@ -83,7 +83,11 @@
                     <label for="exampleInputEmail1" class="form-label">Preço Total</label>
                     <input value="@Model.TotalPrice €" class="form-control" disabled />
                 </div>
-                <a asp-action="CloseParecer2" asp-route-id="@Model.Id" class="btn btn-primary @if(Model.Stage != 1){<text>disabled</text>}"><i class="fas fa-check"></i> Fechar Parecer 1</a>
+                @if(Model.PurchaseItem.Count != 0 ){
+                    <a asp-action="CloseParecer2" asp-route-id="@Model.Id" class="btn btn-primary @if(Model.Stage != 2){<text>disabled</text>}"><i class="fas fa-check"></i> Fechar Parecer 1</a>
+                }else{
+                    <a asp-action="Apagar" asp-route-id="@Model.Id" class="btn btn-primary"><i class="fas fa-check"></i> Apagar Compra</a>
+                }
             </div>
         </div>
         <!-- Modals -->

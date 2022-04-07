@@ -1,17 +1,20 @@
-﻿using EPSMGest.Models;
+﻿using EpsmGest.ViewModel;
+using EPSMGest.Models;
 
-namespace EPSMGest.Services
+namespace EpsmGest.Services.Department
 {
-    public interface IDepartmentService
-    {
-        public List<DepartmentModel> GetDepartments();
+	public interface IDepartmentService
+	{
+		public List<DepartmentModel> GetDepartments();
 
-        public DepartmentModel GetDepartment(int id);
+		public DepartmentModel GetDepartment(int id);
 
-        public void CreateDepartment(DepartmentModel model);
+		public List<DropdownViewModel> GetDepartmentIds();
 
-        public bool DeleteDepartment(int id);
+		public void CreateDepartment(DepartmentModel model);
 
-        public void EditDepartment(DepartmentModel model);
-    }
+		public bool DeleteDepartment(int id);
+
+		public bool EditDepartment(DepartmentModel model);
+	}
 }

@@ -17,7 +17,7 @@ namespace EpsmGest.Migrations
         {
 #pragma warning disable 612, 618
             modelBuilder
-                .HasAnnotation("ProductVersion", "6.0.1")
+                .HasAnnotation("ProductVersion", "6.0.3")
                 .HasAnnotation("Relational:MaxIdentifierLength", 128);
 
             SqlServerModelBuilderExtensions.UseIdentityColumns(modelBuilder, 1L, 1);
@@ -37,6 +37,37 @@ namespace EpsmGest.Migrations
                     b.HasKey("DepartamentId");
 
                     b.ToTable("Department");
+                });
+
+            modelBuilder.Entity("EPSMGest.Models.Intervention.RequestInterventionModel", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"), 1L, 1);
+
+                    b.Property<int>("EquipamentId")
+                        .HasColumnType("int");
+
+                    b.Property<string>("InterventionId")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("RequisitionId")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(450)");
+
+                    b.Property<int>("Stage")
+                        .HasColumnType("int");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("EquipamentId");
+
+                    b.HasIndex("RequisitionId");
+
+                    b.ToTable("RequestInterventionModel");
                 });
 
             modelBuilder.Entity("EPSMGest.Models.InvoiceModel", b =>
@@ -72,7 +103,46 @@ namespace EpsmGest.Migrations
                     b.ToTable("Invoice");
                 });
 
-            modelBuilder.Entity("EPSMGest.Models.PurchaseModel", b =>
+            modelBuilder.Entity("EPSMGest.Models.Purchase.PurchaseItemModel", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"), 1L, 1);
+
+                    b.Property<bool>("Aprovation1")
+                        .HasColumnType("bit");
+
+                    b.Property<bool>("Aprovation2")
+                        .HasColumnType("bit");
+
+                    b.Property<string>("Item")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<decimal>("Price")
+                        .HasColumnType("decimal(18,2)");
+
+                    b.Property<int>("PurchaseId")
+                        .HasColumnType("int");
+
+                    b.Property<int>("Quantity")
+                        .HasColumnType("int");
+
+                    b.Property<int?>("SupplierId")
+                        .HasColumnType("int");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("PurchaseId");
+
+                    b.HasIndex("SupplierId");
+
+                    b.ToTable("PurchaseItem");
+                });
+
+            modelBuilder.Entity("EPSMGest.Models.Purchase.PurchaseModel", b =>
                 {
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
@@ -82,10 +152,6 @@ namespace EpsmGest.Migrations
 
                     b.Property<DateTime>("Date")
                         .HasColumnType("datetime2");
-
-                    b.Property<string>("Description")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("PurchaseId")
                         .IsRequired()
@@ -133,6 +199,9 @@ namespace EpsmGest.Migrations
                     b.Property<string>("FilesName")
                         .HasColumnType("nvarchar(max)");
 
+                    b.Property<int>("Type")
+                        .HasColumnType("int");
+
                     b.HasKey("RequisicaoId");
 
                     b.HasIndex("DepartamentId");
@@ -140,7 +209,60 @@ namespace EpsmGest.Migrations
                     b.ToTable("Requisition");
                 });
 
-            modelBuilder.Entity("EpsmGest.Models.Space.EquipmentModel", b =>
+            modelBuilder.Entity("EPSMGest.Models.Space.RequestSpaceModel", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"), 1L, 1);
+
+                    b.Property<string>("Activity")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<bool>("Approval")
+                        .HasColumnType("bit");
+
+                    b.Property<DateTime>("End")
+                        .HasColumnType("datetime2");
+
+                    b.Property<string>("RequisitionId")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(450)");
+
+                    b.Property<string>("SpaceId")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(450)");
+
+                    b.Property<DateTime>("Start")
+                        .HasColumnType("datetime2");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("RequisitionId");
+
+                    b.HasIndex("SpaceId");
+
+                    b.ToTable("RequestSpace");
+                });
+
+            modelBuilder.Entity("EPSMGest.Models.Space.SpaceModel", b =>
+                {
+                    b.Property<string>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("nvarchar(450)");
+
+                    b.Property<string>("Name")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.HasKey("Id");
+
+                    b.ToTable("Space");
+                });
+
+            modelBuilder.Entity("EPSMGest.Models.Stocks.EquipmentModel", b =>
                 {
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
@@ -164,7 +286,7 @@ namespace EpsmGest.Migrations
                     b.ToTable("Equipment");
                 });
 
-            modelBuilder.Entity("EpsmGest.Models.Spaces.RequestSpaceModel", b =>
+            modelBuilder.Entity("EPSMGest.Models.Stocks.StockCategoryModel", b =>
                 {
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
@@ -172,50 +294,16 @@ namespace EpsmGest.Migrations
 
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"), 1L, 1);
 
-                    b.Property<string>("Activity")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<bool>("Approval")
-                        .HasColumnType("bit");
-
-                    b.Property<string>("Description")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<DateTime>("End")
-                        .HasColumnType("datetime2");
-
-                    b.Property<string>("SpaceId")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(450)");
-
-                    b.Property<DateTime>("Start")
-                        .HasColumnType("datetime2");
-
-                    b.HasKey("Id");
-
-                    b.HasIndex("SpaceId");
-
-                    b.ToTable("RequestSpace");
-                });
-
-            modelBuilder.Entity("EpsmGest.Models.Spaces.SpaceModel", b =>
-                {
-                    b.Property<string>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("nvarchar(450)");
-
                     b.Property<string>("Name")
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
                     b.HasKey("Id");
 
-                    b.ToTable("Space");
+                    b.ToTable("StockCategory");
                 });
 
-            modelBuilder.Entity("EpsmGest.Models.StockModel", b =>
+            modelBuilder.Entity("EPSMGest.Models.Stocks.StockModel", b =>
                 {
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
@@ -240,24 +328,7 @@ namespace EpsmGest.Migrations
                     b.ToTable("Stock");
                 });
 
-            modelBuilder.Entity("EpsmGest.Models.Stocks.StockCategoryModel", b =>
-                {
-                    b.Property<int>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("int");
-
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"), 1L, 1);
-
-                    b.Property<string>("Name")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
-
-                    b.HasKey("Id");
-
-                    b.ToTable("StockCategory");
-                });
-
-            modelBuilder.Entity("EpsmGest.Models.SupplierEvaluationModel", b =>
+            modelBuilder.Entity("EPSMGest.Models.Supplier.SupplierEvaluationModel", b =>
                 {
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
@@ -292,7 +363,7 @@ namespace EpsmGest.Migrations
                     b.ToTable("SupplierEvaluation");
                 });
 
-            modelBuilder.Entity("EPSMGest.Models.SupplierModel", b =>
+            modelBuilder.Entity("EPSMGest.Models.Supplier.SupplierModel", b =>
                 {
                     b.Property<int>("SupplierId")
                         .ValueGeneratedOnAdd()
@@ -315,75 +386,7 @@ namespace EpsmGest.Migrations
                     b.ToTable("Supplier");
                 });
 
-            modelBuilder.Entity("EpsmGest.Models.UserExtensionModel", b =>
-                {
-                    b.Property<string>("Id")
-                        .HasColumnType("nvarchar(450)");
-
-                    b.Property<int>("AccessFailedCount")
-                        .HasColumnType("int");
-
-                    b.Property<string>("ConcurrencyStamp")
-                        .IsConcurrencyToken()
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<string>("Email")
-                        .HasMaxLength(256)
-                        .HasColumnType("nvarchar(256)");
-
-                    b.Property<bool>("EmailConfirmed")
-                        .HasColumnType("bit");
-
-                    b.Property<bool>("IsDriver")
-                        .HasColumnType("bit");
-
-                    b.Property<bool>("LockoutEnabled")
-                        .HasColumnType("bit");
-
-                    b.Property<DateTimeOffset?>("LockoutEnd")
-                        .HasColumnType("datetimeoffset");
-
-                    b.Property<string>("NormalizedEmail")
-                        .HasMaxLength(256)
-                        .HasColumnType("nvarchar(256)");
-
-                    b.Property<string>("NormalizedUserName")
-                        .HasMaxLength(256)
-                        .HasColumnType("nvarchar(256)");
-
-                    b.Property<string>("PasswordHash")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<string>("PhoneNumber")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<bool>("PhoneNumberConfirmed")
-                        .HasColumnType("bit");
-
-                    b.Property<string>("SecurityStamp")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<bool>("TwoFactorEnabled")
-                        .HasColumnType("bit");
-
-                    b.Property<string>("UserName")
-                        .HasMaxLength(256)
-                        .HasColumnType("nvarchar(256)");
-
-                    b.HasKey("Id");
-
-                    b.HasIndex("NormalizedEmail")
-                        .HasDatabaseName("EmailIndex");
-
-                    b.HasIndex("NormalizedUserName")
-                        .IsUnique()
-                        .HasDatabaseName("UserNameIndex")
-                        .HasFilter("[NormalizedUserName] IS NOT NULL");
-
-                    b.ToTable("AspNetUsers", (string)null);
-                });
-
-            modelBuilder.Entity("EpsmGest.Models.Vehicles.RequestVehicleModel", b =>
+            modelBuilder.Entity("EPSMGest.Models.Vehicle.RequestVehicleModel", b =>
                 {
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
@@ -399,10 +402,6 @@ namespace EpsmGest.Migrations
 
                     b.Property<DateTime>("Departure")
                         .HasColumnType("datetime2");
-
-                    b.Property<string>("Description")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("Driver")
                         .IsRequired()
@@ -424,6 +423,10 @@ namespace EpsmGest.Migrations
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
+                    b.Property<string>("RequisitionId")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(450)");
+
                     b.Property<string>("Service")
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
@@ -433,12 +436,14 @@ namespace EpsmGest.Migrations
 
                     b.HasKey("Id");
 
+                    b.HasIndex("RequisitionId");
+
                     b.HasIndex("VehicleId");
 
                     b.ToTable("RequestVehicle");
                 });
 
-            modelBuilder.Entity("EpsmGest.Models.Vehicles.VehicleModel", b =>
+            modelBuilder.Entity("EPSMGest.Models.Vehicle.VehicleModel", b =>
                 {
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
@@ -457,45 +462,6 @@ namespace EpsmGest.Migrations
                     b.HasKey("Id");
 
                     b.ToTable("Vehicle");
-                });
-
-            modelBuilder.Entity("EpsmGest.ViewModel.PurchaseItemModel", b =>
-                {
-                    b.Property<int>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("int");
-
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"), 1L, 1);
-
-                    b.Property<bool>("Aprovation1")
-                        .HasColumnType("bit");
-
-                    b.Property<bool>("Aprovation2")
-                        .HasColumnType("bit");
-
-                    b.Property<string>("Item")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<decimal>("Price")
-                        .HasColumnType("decimal(18,2)");
-
-                    b.Property<int>("PurchaseId")
-                        .HasColumnType("int");
-
-                    b.Property<int>("Quantity")
-                        .HasColumnType("int");
-
-                    b.Property<int?>("SupplierId")
-                        .HasColumnType("int");
-
-                    b.HasKey("Id");
-
-                    b.HasIndex("PurchaseId");
-
-                    b.HasIndex("SupplierId");
-
-                    b.ToTable("PurchaseItem");
                 });
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityRole", b =>
@@ -548,6 +514,71 @@ namespace EpsmGest.Migrations
                     b.HasIndex("RoleId");
 
                     b.ToTable("AspNetRoleClaims", (string)null);
+                });
+
+            modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityUser", b =>
+                {
+                    b.Property<string>("Id")
+                        .HasColumnType("nvarchar(450)");
+
+                    b.Property<int>("AccessFailedCount")
+                        .HasColumnType("int");
+
+                    b.Property<string>("ConcurrencyStamp")
+                        .IsConcurrencyToken()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("Email")
+                        .HasMaxLength(256)
+                        .HasColumnType("nvarchar(256)");
+
+                    b.Property<bool>("EmailConfirmed")
+                        .HasColumnType("bit");
+
+                    b.Property<bool>("LockoutEnabled")
+                        .HasColumnType("bit");
+
+                    b.Property<DateTimeOffset?>("LockoutEnd")
+                        .HasColumnType("datetimeoffset");
+
+                    b.Property<string>("NormalizedEmail")
+                        .HasMaxLength(256)
+                        .HasColumnType("nvarchar(256)");
+
+                    b.Property<string>("NormalizedUserName")
+                        .HasMaxLength(256)
+                        .HasColumnType("nvarchar(256)");
+
+                    b.Property<string>("PasswordHash")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("PhoneNumber")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<bool>("PhoneNumberConfirmed")
+                        .HasColumnType("bit");
+
+                    b.Property<string>("SecurityStamp")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<bool>("TwoFactorEnabled")
+                        .HasColumnType("bit");
+
+                    b.Property<string>("UserName")
+                        .HasMaxLength(256)
+                        .HasColumnType("nvarchar(256)");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("NormalizedEmail")
+                        .HasDatabaseName("EmailIndex");
+
+                    b.HasIndex("NormalizedUserName")
+                        .IsUnique()
+                        .HasDatabaseName("UserNameIndex")
+                        .HasFilter("[NormalizedUserName] IS NOT NULL");
+
+                    b.ToTable("AspNetUsers", (string)null);
                 });
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityUserClaim<string>", b =>
@@ -635,16 +666,52 @@ namespace EpsmGest.Migrations
                     b.ToTable("AspNetUserTokens", (string)null);
                 });
 
+            modelBuilder.Entity("EPSMGest.Models.Intervention.RequestInterventionModel", b =>
+                {
+                    b.HasOne("EPSMGest.Models.Stocks.EquipmentModel", "Equipament")
+                        .WithMany()
+                        .HasForeignKey("EquipamentId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.HasOne("EPSMGest.Models.RequisitionModel", "Requisition")
+                        .WithMany("RequestInterventions")
+                        .HasForeignKey("RequisitionId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("Equipament");
+
+                    b.Navigation("Requisition");
+                });
+
             modelBuilder.Entity("EPSMGest.Models.InvoiceModel", b =>
                 {
-                    b.HasOne("EPSMGest.Models.SupplierModel", "Supplier")
+                    b.HasOne("EPSMGest.Models.Supplier.SupplierModel", "Supplier")
                         .WithMany()
                         .HasForeignKey("SupplierId");
 
                     b.Navigation("Supplier");
                 });
 
-            modelBuilder.Entity("EPSMGest.Models.PurchaseModel", b =>
+            modelBuilder.Entity("EPSMGest.Models.Purchase.PurchaseItemModel", b =>
+                {
+                    b.HasOne("EPSMGest.Models.Purchase.PurchaseModel", "Purchase")
+                        .WithMany("PurchaseItem")
+                        .HasForeignKey("PurchaseId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.HasOne("EPSMGest.Models.Supplier.SupplierModel", "Supplier")
+                        .WithMany("ComprasItems")
+                        .HasForeignKey("SupplierId");
+
+                    b.Navigation("Purchase");
+
+                    b.Navigation("Supplier");
+                });
+
+            modelBuilder.Entity("EPSMGest.Models.Purchase.PurchaseModel", b =>
                 {
                     b.HasOne("EPSMGest.Models.RequisitionModel", "Requisition")
                         .WithMany("Purchase")
@@ -666,20 +733,28 @@ namespace EpsmGest.Migrations
                     b.Navigation("Departament");
                 });
 
-            modelBuilder.Entity("EpsmGest.Models.Spaces.RequestSpaceModel", b =>
+            modelBuilder.Entity("EPSMGest.Models.Space.RequestSpaceModel", b =>
                 {
-                    b.HasOne("EpsmGest.Models.Spaces.SpaceModel", "Space")
+                    b.HasOne("EPSMGest.Models.RequisitionModel", "Requisition")
+                        .WithMany("RequestSpaces")
+                        .HasForeignKey("RequisitionId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.HasOne("EPSMGest.Models.Space.SpaceModel", "Space")
                         .WithMany("RequestSpaces")
                         .HasForeignKey("SpaceId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
+                    b.Navigation("Requisition");
+
                     b.Navigation("Space");
                 });
 
-            modelBuilder.Entity("EpsmGest.Models.StockModel", b =>
+            modelBuilder.Entity("EPSMGest.Models.Stocks.StockModel", b =>
                 {
-                    b.HasOne("EpsmGest.Models.Stocks.StockCategoryModel", "StockCategory")
+                    b.HasOne("EPSMGest.Models.Stocks.StockCategoryModel", "StockCategory")
                         .WithMany("Stocks")
                         .HasForeignKey("CategoryId")
                         .OnDelete(DeleteBehavior.Cascade)
@@ -688,15 +763,15 @@ namespace EpsmGest.Migrations
                     b.Navigation("StockCategory");
                 });
 
-            modelBuilder.Entity("EpsmGest.Models.SupplierEvaluationModel", b =>
+            modelBuilder.Entity("EPSMGest.Models.Supplier.SupplierEvaluationModel", b =>
                 {
-                    b.HasOne("EPSMGest.Models.PurchaseModel", "Purchase")
+                    b.HasOne("EPSMGest.Models.Purchase.PurchaseModel", "Purchase")
                         .WithMany("Evaluations")
                         .HasForeignKey("PurchaseId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
-                    b.HasOne("EPSMGest.Models.SupplierModel", "Supplier")
+                    b.HasOne("EPSMGest.Models.Supplier.SupplierModel", "Supplier")
                         .WithMany("SupplierEvaluations")
                         .HasForeignKey("SupplierId")
                         .OnDelete(DeleteBehavior.Cascade)
@@ -707,32 +782,23 @@ namespace EpsmGest.Migrations
                     b.Navigation("Supplier");
                 });
 
-            modelBuilder.Entity("EpsmGest.Models.Vehicles.RequestVehicleModel", b =>
+            modelBuilder.Entity("EPSMGest.Models.Vehicle.RequestVehicleModel", b =>
                 {
-                    b.HasOne("EpsmGest.Models.Vehicles.VehicleModel", "Vehicle")
+                    b.HasOne("EPSMGest.Models.RequisitionModel", "Requisition")
+                        .WithMany()
+                        .HasForeignKey("RequisitionId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.HasOne("EPSMGest.Models.Vehicle.VehicleModel", "Vehicle")
                         .WithMany("RequestVehicles")
                         .HasForeignKey("VehicleId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
+                    b.Navigation("Requisition");
+
                     b.Navigation("Vehicle");
-                });
-
-            modelBuilder.Entity("EpsmGest.ViewModel.PurchaseItemModel", b =>
-                {
-                    b.HasOne("EPSMGest.Models.PurchaseModel", "Purchase")
-                        .WithMany("PurchaseItem")
-                        .HasForeignKey("PurchaseId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.HasOne("EPSMGest.Models.SupplierModel", "Supplier")
-                        .WithMany("ComprasItems")
-                        .HasForeignKey("SupplierId");
-
-                    b.Navigation("Purchase");
-
-                    b.Navigation("Supplier");
                 });
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityRoleClaim<string>", b =>
@@ -746,7 +812,7 @@ namespace EpsmGest.Migrations
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityUserClaim<string>", b =>
                 {
-                    b.HasOne("EpsmGest.Models.UserExtensionModel", null)
+                    b.HasOne("Microsoft.AspNetCore.Identity.IdentityUser", null)
                         .WithMany()
                         .HasForeignKey("UserId")
                         .OnDelete(DeleteBehavior.Cascade)
@@ -755,7 +821,7 @@ namespace EpsmGest.Migrations
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityUserLogin<string>", b =>
                 {
-                    b.HasOne("EpsmGest.Models.UserExtensionModel", null)
+                    b.HasOne("Microsoft.AspNetCore.Identity.IdentityUser", null)
                         .WithMany()
                         .HasForeignKey("UserId")
                         .OnDelete(DeleteBehavior.Cascade)
@@ -770,7 +836,7 @@ namespace EpsmGest.Migrations
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
-                    b.HasOne("EpsmGest.Models.UserExtensionModel", null)
+                    b.HasOne("Microsoft.AspNetCore.Identity.IdentityUser", null)
                         .WithMany()
                         .HasForeignKey("UserId")
                         .OnDelete(DeleteBehavior.Cascade)
@@ -779,7 +845,7 @@ namespace EpsmGest.Migrations
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityUserToken<string>", b =>
                 {
-                    b.HasOne("EpsmGest.Models.UserExtensionModel", null)
+                    b.HasOne("Microsoft.AspNetCore.Identity.IdentityUser", null)
                         .WithMany()
                         .HasForeignKey("UserId")
                         .OnDelete(DeleteBehavior.Cascade)
@@ -791,7 +857,7 @@ namespace EpsmGest.Migrations
                     b.Navigation("Requisitions");
                 });
 
-            modelBuilder.Entity("EPSMGest.Models.PurchaseModel", b =>
+            modelBuilder.Entity("EPSMGest.Models.Purchase.PurchaseModel", b =>
                 {
                     b.Navigation("Evaluations");
 
@@ -801,26 +867,30 @@ namespace EpsmGest.Migrations
             modelBuilder.Entity("EPSMGest.Models.RequisitionModel", b =>
                 {
                     b.Navigation("Purchase");
+
+                    b.Navigation("RequestInterventions");
+
+                    b.Navigation("RequestSpaces");
                 });
 
-            modelBuilder.Entity("EpsmGest.Models.Spaces.SpaceModel", b =>
+            modelBuilder.Entity("EPSMGest.Models.Space.SpaceModel", b =>
                 {
                     b.Navigation("RequestSpaces");
                 });
 
-            modelBuilder.Entity("EpsmGest.Models.Stocks.StockCategoryModel", b =>
+            modelBuilder.Entity("EPSMGest.Models.Stocks.StockCategoryModel", b =>
                 {
                     b.Navigation("Stocks");
                 });
 
-            modelBuilder.Entity("EPSMGest.Models.SupplierModel", b =>
+            modelBuilder.Entity("EPSMGest.Models.Supplier.SupplierModel", b =>
                 {
                     b.Navigation("ComprasItems");
 
                     b.Navigation("SupplierEvaluations");
                 });
 
-            modelBuilder.Entity("EpsmGest.Models.Vehicles.VehicleModel", b =>
+            modelBuilder.Entity("EPSMGest.Models.Vehicle.VehicleModel", b =>
                 {
                     b.Navigation("RequestVehicles");
                 });

@@ -1,56 +1,248 @@
-﻿@{
+﻿@using Microsoft.AspNetCore.Http;
+@{
+    var areaName = ViewContext.RouteData.Values["area"]?.ToString();
     var controllerName = ViewContext.RouteData.Values["controller"]?.ToString();
     var pageName = ViewContext.RouteData.Values["action"]?.ToString();
 }
 
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en" class="no-js" style="height:100%">
 <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>@ViewData["Title"] - EPSMGest</title>
-    <link rel="stylesheet" href="~/css/mainnovo.css">
+    <title>@ViewData["Title"] - EPSM Gest</title>
     <!-- Font Awesome -->
     <link rel="stylesheet" href="~/lib/fontawesome-free/css/all.min.css">
-    <!-- Boostrap -->
-    <link rel="stylesheet" href="~/lib/bootstrap/dist/css/bootstrap.min.css" />
+    <!-- DataTables -->
+    <link rel="stylesheet" href="~/lib/datatables-bs4/css/dataTables.bootstrap4.min.css">
+    <link rel="stylesheet" href="~/lib/datatables-responsive/css/responsive.bootstrap4.min.css">
+    <link rel="stylesheet" href="~/lib/datatables-buttons/css/buttons.bootstrap4.min.css">
+    <!-- Theme style -->
+    <link rel="stylesheet" href="~/css/adminlte.min.css">
+    <!-- Site style -->
+    <link rel="stylesheet" href="~/css/site.css">
+    <!-- Jquery -->
     <script src="~/lib/jquery/dist/jquery.min.js"></script>
-    <script src="~/lib/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
+    <!-- Bootstrap 4 -->
+    <script src="~/lib/bootstrap/dist/css/boostrap.min.css"></script>
+    <script src="~/lib/bootstrap/dist/js/bootstrap.min.js"></script>
 </head>
-<body>
-    <div class="container-fluid">
-        <div class="col-12 col-md-11 align-center" id="containerMain2">
-            <div class="row mt-3 justify-content-between" id="rowCabecalho" alt="epsm fundo" style="margin-right:0;margin-left:0;background-image: url('/imagens/banner4.jpg'); ">
-                <div class="col-1" style="color:white;">
-                    @if (controllerName == "Home")
-                    {
-                        @if (pageName != "Index")
-                        {
-                            <a asp-controller="" asp-action="" class="text-decoration-none"><i class="fas fa-chevron-left fa-3x" id="sairvoltar"></i></a>
-                        }
-                    }
-                    else
-                    {
-                        <a asp-controller="" asp-action="" class="text-decoration-none"><i class="fas fa-chevron-left fa-3x" id="sairvoltar"></i></a>
-                    }
-                </div>
-                <div class="col-2 ">
-                    <a asp-controller="" asp-action="" class="text-decoration-none"><img src="/imagens/epsmlogo.png" alt="epsm logo" id="logo" class="rounded dloat-left"></a>
-                </div>
+<body class="hold-transition">
+    <div class="wrapper">
+        <header>
+            <!-- Navbar -->
+            <nav class="main-header navbar navbar-expand navbar-white navbar-light">
+                <!-- Left navbar links -->
+                <ul class="navbar-nav">
+                    <li class="nav-item">
+                        <a class="nav-link" data-widget="pushmenu" href="#" role="button"><i class="fas fa-bars"></i></a>
+                    </li>
+                    <li class="nav-item d-none d-sm-inline-block">
+                        <a href="" class="nav-link">Home</a>
+                    </li>
 
-                <div class="col-1"></div>
-            </div>
-            <nav class="navbar navbar-expand-sm navbar-toggleable-sm navbar-light bg-white border-bottom box-shadow mb-3">
-                <div class="navbar-collapse collapse d-sm-inline-flex justify-content-between">
-                    <ul class="navbar-nav flex-grow-1"></ul>
-                    <partial name="_LoginPartial" />
-                </div>
+                </ul>
             </nav>
+            <!-- /.navbar -->
+            <!-- Main Sidebar Container -->
+            <aside class="main-sidebar sidebar-open sidebar-dark-primary elevation-4 overflow-hidden">
+                <!-- Brand Logo -->
+                <a class="brand-link" asp-controller="Home" asp-action="index" asp-route-Id="">
+                    <img src="~/img/epsmlogoGrande.png" class="w-100" />
+                    &nbsp;
+                </a>
+
+                <!-- Sidebar -->
+                <div class="sidebar">
+                    <!-- Sidebar user panel (optional) -->
+                    <div class="user-panel mt-3 pb-3 mb-3 d-flex">
+                        <div class="image">
+                            <img src="~/img/user.jpg" class="img-circle elevation-2" alt="User Image">
+                        </div>
+                        <div class="info">
+                            <a href="" class="d-block">
+                                @User.Identity.Name
+                            </a>
+                        </div>
+                    </div>
+
+                    <!-- Sidebar Menu -->
+                    <nav class="mt-2">
+                        <ul class="nav nav-pills nav-sidebar flex-column" data-widget="treeview" role="menu" data-accordion="false">
+                            <!-- Home -->
+                            <li class="nav-item">
+                                <a class="nav-link @(controllerName == "Home" ? "active" : "")" asp-area="" asp-controller="Home" asp-action="Index" asp-route-Id="">
+                                    <i class="nav-icon fas fa-home"></i>
+                                    <p>
+                                        Home
+                                    </p>
+                                </a>
+                            </li>
+                            <!-- Requisition -->
+                            <li class="nav-item @(controllerName == "Requisition" ? "menu-is-opening menu-open" : "")">
+                                <a href="#" class="nav-link @(controllerName == "Requisition" ? "active" : "")">
+                                    <i class="nav-icon fas fa-user"></i>
+                                    <p>
+                                        Requisições
+                                        <i class="fas fa-angle-left right"></i>
+                                    </p>
+                                </a>
+                                <ul class="nav nav-treeview">
+                                    <li class="nav-item">
+                                        <a class="nav-link @(controllerName == "Requisition" && pageName.Contains("Create") ? "active" : "")" asp-controller="Requesicao" asp-action="CriarCompra">
+                                            <i class="far fa-circle nav-icon"></i>
+                                            <p>Nova Requesição</p>
+                                        </a>
+                                    </li>
+                                    <li class="nav-item">
+                                        <a class="nav-link @(controllerName == "Requisition" && pageName == "Index" ? "active" : "")" asp-controller="Requesicao" asp-action="Index">
+                                            <i class="far fa-circle nav-icon"></i>
+                                            <p>Requisições</p>
+                                        </a>
+                                    </li>
+                                    <li class="nav-item">
+                                        <a class="nav-link @(controllerName == "Requisition" && pageName == "UserRequesicoes" ? "active" : "")" asp-controller="Requesicao" asp-action="Pessoais">
+                                            <i class="far fa-circle nav-icon"></i>
+                                            <p>Requisição Pessoais</p>
+                                        </a>
+                                    </li>                                    
+                                </ul>
+                            </li>
+
+                            <!-- Purchase -->
+                            <li class="nav-item">
+                                <a class="nav-link @(controllerName == "Purchase" ? "active" : "")" asp-controller="Compras" asp-action="Index" asp-route-Id="">
+                                    <i class="fas fa-truck"></i>
+                                    <p>
+                                        Compras
+                                    </p>
+                                </a>
+                            </li>
+                                                     
+                            <!-- Space -->
+                            <li class="nav-item">
+                                <a class="nav-link @(controllerName == "Space" ? "active" : "")" asp-controller="Space" asp-action="Index" asp-route-Id="">
+                                    <i class="fas fa-truck"></i>
+                                    <p>
+                                        Espaços
+                                    </p>
+                                </a>
+                            </li>
+
+                            <!-- Vehicle -->
+                            <li class="nav-item">
+                                <a class="nav-link @(controllerName == "Vehicle" ? "active" : "")" asp-controller="Vehicle" asp-action="Index" asp-route-Id="">
+                                    <i class="fas fa-truck"></i>
+                                    <p>
+                                        Viaturas
+                                    </p>
+                                </a>
+                            </li>
+                            
+                            <!-- Intervention -->
+                            <li class="nav-item">
+                                <a class="nav-link @(controllerName == "Intervention" ? "active" : "")" asp-controller="Intervention" asp-action="Index" asp-route-Id="">
+                                    <i class="fas fa-truck"></i>
+                                    <p>
+                                        Intervenções
+                                    </p>
+                                </a>
+                            </li>
+                            
+                            <!-- Invoices -->
+                            <li class="nav-item">
+                                <a class="nav-link @(controllerName == "Invoices" ? "active" : "")" asp-controller="Invoices" asp-action="Index" asp-route-Id="">
+                                    <i class="fas fa-truck"></i>
+                                    <p>
+                                        Faturas
+                                    </p>
+                                </a>
+                            </li>                            
+
+                            <!-- Stocks -->
+                            <li class="nav-item">
+                                <a class="nav-link @(controllerName == "Stock" ? "active" : "")" asp-controller="Stock" asp-action="Index" asp-route-Id="">
+                                    <i class="fas fa-truck"></i>
+                                    <p>
+                                        Stock
+                                    </p>
+                                </a>
+                            </li>
+
+                            <!-- Supplier  -->
+                            <li class="nav-item">
+                                <a class="nav-link @(controllerName == "Supplier" ? "active" : "")" asp-controller="Fornecedor" asp-action="Index" asp-route-Id="">
+                                    <i class="fas fa-truck"></i>
+                                    <p>
+                                        Fornecedores
+                                    </p>
+                                </a>
+                            </li>
+
+                            <!-- Admin -->
+                            <li class="nav-item">
+                                <a class="nav-link @(controllerName == "Department" || controllerName == "Users"  || controllerName == "Vehicle"? "active" : "")" asp-controller="Department" asp-action="Index" asp-route-Id="">
+                                    <i class="fas fa-users-cog"></i>
+                                    <p>
+                                        Admin
+                                    </p>
+                                </a>
+                            </li>
+
+                            <!-- Account -->
+                            <li class="nav-item @(areaName == "Identity" ? "menu-is-opening menu-open" : "")">
+                                <a href="#" class="nav-link @(areaName == "Identity" ? "active" : "")">
+                                    <i class="nav-icon fas fa-user"></i>
+                                    <p>
+                                        Conta
+                                        <i class="fas fa-angle-left right"></i>
+                                    </p>
+                                </a>
+                                <ul class="nav nav-treeview">
+                                    <li class="nav-item">
+                                        <a class="nav-link @(areaName == "Identity" ? "active" : "")" asp-area="Identity" asp-page="/Account/Manage/Index">
+                                            <i class="far fa-circle nav-icon"></i>
+                                            <p>Informações</p>
+                                        </a>
+                                    </li>
+                                    <li class="nav-item">
+                                        <a id="ExitBtn" class="nav-link" href="#" >
+                                            <i class="far fa-circle nav-icon"></i>
+                                            <p>Sair</p>
+                                        </a>                                    
+                                    </li>
+                                </ul>
+                            </li>
+                        </ul>
+                    </nav>
+                    <!-- /.sidebar-menu -->
+                </div>
+                <!-- /.sidebar -->
+            </aside>
+            <form id="ExitForm" method="post" asp-area="Identity" asp-page="/Account/Logout" asp-route-returnUrl="@Url.Action("Index", "Home", new { area = "" })"></form>
+        </header>
+    
+        <!-- Content Wrapper. Contains page content -->
+        <div class="content-wrapper">
             @RenderBody()
         </div>
+        <!-- /.content-wrapper -->
+        <footer class="main-footer">
+            <strong>Copyright &copy; 2021 <a>Epsm</a>.</strong> todos os direitos reservados.
+        </footer>
+
+        <!-- /.control-sidebar -->
+        <aside class="control-sidebar control-sidebar-dark"></aside>
     </div>
-    @await RenderSectionAsync("Scripts", required: false)
-    <!-- Toastr -->
+    <!-- AdminLTE App -->
+    <script src="~/js/adminlte.min.js"></script>
     <partial name="_Toastr" />
+    <script>
+        var form = document.getElementById("ExitForm");
+        document.getElementById("ExitBtn").addEventListener("click", function () {
+          form.submit();
+        });
+    </script>
+    @RenderSection("Scripts", false)
 </body>
 </html>

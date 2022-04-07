@@ -14,7 +14,13 @@ namespace EPSMGest.Services.Requisition
 
         public List<DropdownViewModel> GetRequisitionsIds();
 
-        public Task CreateRequisition(CreateRequisitionViewModel model);
+        public void CreateReqPurchase(CreateReqPurchaseViewModel model);
+
+        public void CreateReqVehicle(CreateReqVehicleViewModel model);
+
+        public void CreateReqSpace(CreateReqSpaceViewModel model);
+
+        public void CreateReqIntervention(CreateReqInterventionViewModel model);
 
         public void EditRequisition(RequisitionModel model);
 

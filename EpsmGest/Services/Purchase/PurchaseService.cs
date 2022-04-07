@@ -1,10 +1,11 @@
 ﻿using EpsmGest.Data;
-using EpsmGest.Models;
+using EPSMGest.Models.Purchase;
+using EPSMGest.Models.Supplier;
 using EpsmGest.ViewModel;
 using EpsmGest.ViewModel.Purchase;
 using EpsmGest.ViewModel.Requisition;
-using EPSMGest.Models;
 using Microsoft.EntityFrameworkCore;
+using EPSMGest.Models;
 
 namespace EPSMGest.Services.Purchase
 {
@@ -19,27 +20,26 @@ namespace EPSMGest.Services.Purchase
 
         public List<PurchaseModel> GetPurchases()
         {
-            return AppDb.Purchase.ToList();
+            return AppDb.Purchase.Include(x => x.Requisition).ToList();
         }
 
         public PurchaseModel? GetPurchase(int id)
         {
-            return AppDb.Purchase.FirstOrDefault(x => x.Id == id);
+            return AppDb.Purchase.Include(x => x.Requisition).FirstOrDefault(x => x.Id == id);
         }
 
         public List<DropdownViewModel> GetPurchasesIds()
         {
-            return AppDb.Purchase.Select(x => new DropdownViewModel { Id = x.Id.ToString(), Name = x.PurchaseId }).ToList();
+            return AppDb.Purchase.Include(x => x.Requisition).Select(x => new DropdownViewModel { Id = x.Id.ToString(), Name = x.PurchaseId }).ToList();
         }
 
-        public async Task CreatePurchase(CreateRequisitionViewModel model)
+        public async Task CreatePurchase(CreateReqPurchaseViewModel model)
         {
             PurchaseModel compra = new()
 			{
                 PurchaseId = PurchaseId(),
                 Stage = 0,
                 Date = DateTime.Now,
-                Description = model.Requisition.Description,
                 RequisitionId = model.Requisition.RequisicaoId
             };
             AppDb.Purchase.Add(compra);
@@ -50,9 +50,9 @@ namespace EPSMGest.Services.Purchase
                 model.PurchaseItem[i].PurchaseId = compra.Id;
                 model.PurchaseItem[i].Purchase = compra;
             }
-            compra.PurchaseItem = model.PurchaseItem;
+            compra.PurchaseItem = (ICollection<PurchaseItemModel>)model.PurchaseItem;
 
-            AppDb.PurchaseItem.AddRange(model.PurchaseItem);
+            AppDb.PurchaseItem.AddRange(compra.PurchaseItem);
             AppDb.Purchase.Update(compra);
             await AppDb.SaveChangesAsync();
         }
@@ -65,7 +65,7 @@ namespace EPSMGest.Services.Purchase
 
         public bool DeletePurchase(int Id)
         {
-            var model = AppDb.Purchase.FirstOrDefault(x => x.Id == Id);
+            var model = AppDb.Purchase.Include(x => x.Requisition).FirstOrDefault(x => x.Id == Id);
             if (model != null)
             {
                 var dependentrows = AppDb.Purchase.FirstOrDefault(x => x.Id == Id);
@@ -78,6 +78,7 @@ namespace EPSMGest.Services.Purchase
                         AppDb.Requisition.Remove(requesicao);
                     if(Items != null)
                         AppDb.PurchaseItem.RemoveRange(Items);
+                    model.Requisition.Delivered = 1;
                     AppDb.Purchase.Remove(model);
                     AppDb.SaveChanges();
                     return true;
@@ -103,7 +104,7 @@ namespace EPSMGest.Services.Purchase
                 Department = AppDb.Department.First(x => x.DepartamentId == compra.Requisition.DepartamentId).Name,
                 DepartamentId = compra.Requisition.DepartamentId,
                 Date = compra.Requisition.Date,
-                Description = compra.Description,
+                Description = compra.Requisition.Description,
                 PurchaseItem = compra.PurchaseItem.Select(x => new SimplePurchaseItemViewModel { Id = x.Id, Quantity = x.Quantity, Name = x.Item }).ToList()
             };
         }
@@ -114,7 +115,7 @@ namespace EPSMGest.Services.Purchase
             if(compra != null)
 			{
                 compra.Requisition.DepartamentId = model.DepartamentId;
-                compra.Description = model.Description;
+                compra.Requisition.Description = model.Description;
                 if(model.PurchaseItem != null)
 				{
                     List<PurchaseItemModel> PurchaseItems = new();
@@ -149,7 +150,7 @@ namespace EPSMGest.Services.Purchase
             return AppDb.Purchase.Include(x => x.PurchaseItem).ThenInclude(x => x.Supplier).Select(x => new ConsultaMercadoViewModel
             {
                 Id = x.Id,
-                Description = x.Description,
+                Description = x.Requisition.Description,
                 Stage = x.Stage,
                 TotalPrice = x.TotalPrice,
                 PurchaseItem = x.PurchaseItem.ToList()
@@ -260,6 +261,19 @@ namespace EPSMGest.Services.Purchase
 
         // --- Parecer 2 ---
 
+        public ConsultaMercadoViewModel? GetParecer2(int id)
+        {
+            return AppDb.Purchase.Include(x => x.PurchaseItem).ThenInclude(x => x.Supplier).Select(x => new ConsultaMercadoViewModel
+            {
+                Id = x.Id,
+                Description = x.Requisition.Description,
+                Stage = x.Stage,
+                TotalPrice = x.TotalPrice,
+                PurchaseItem = x.PurchaseItem.Where(x => x.Aprovation1 == true).ToList()
+            }).FirstOrDefault(x => x.Id == id);
+        }
+
+
         public bool SetParecer2(ConsultaMercadoViewModel model)
 		{
             var compra = AppDb.Purchase.Include(x => x.PurchaseItem).FirstOrDefault(x => x.Id == model.Id);
@@ -297,44 +311,51 @@ namespace EPSMGest.Services.Purchase
 
         public FornecedorEvaluationViewModel? GetFornecedorEvaluation(int id)
 		{
-            var compra = AppDb.Purchase.Include(x => x.PurchaseItem).ThenInclude(x => x.Supplier).FirstOrDefault(x => x.Id == id);
+            var compra = AppDb.Purchase.Include(x => x.Requisition).Include(x => x.PurchaseItem).ThenInclude(x => x.Supplier).FirstOrDefault(x => x.Id == id);
             if (compra == null)
                 return null;
             FornecedorEvaluationViewModel model = new()
             {
                 Id = id,
-                Description = compra.Description,
+                Description = compra.Requisition.Description,
                 Stage = compra.Stage,
                 TotalPrice = compra.TotalPrice,
                 Evaluations = new List<Evaluation>()               
             };
             var evaluations = AppDb.SupplierEvaluation.Where(x => x.PurchaseId == id);
-            foreach(var Item in compra.PurchaseItem)
+            var SupplierTotals = compra.PurchaseItem.Where(x => x.Aprovation1 == true && x.Aprovation2 == true).GroupBy(x => x.SupplierId).Select(g => new { SupplierId = g.Key, SupplierTotal = g.Sum(x => x.Price) }).ToList();
+            foreach(var Item in SupplierTotals)
 			{
-                if(Item.Supplier != null)
+                var supplier = compra.PurchaseItem.FirstOrDefault(x => x.SupplierId == Item.SupplierId).Supplier;
+                var evaluation = evaluations.FirstOrDefault(x => x.SupplierId == Item.SupplierId);
+                var invoice = AppDb.Invoice.FirstOrDefault(x => x.SupplierId == Item.SupplierId && x.IdPurchase == compra.Id);
+                if(supplier != null)
 				{
-                    var evaluation = evaluations.FirstOrDefault(x => x.SupplierId == Item.SupplierId);
-                    if(evaluation != null)
+                    if (evaluation != null)
                         model.Evaluations.Add(new Evaluation
                         {
                             EvalutionId = evaluation.Id,
-                            SupplierId = Item.Supplier.SupplierId,
-                            SupplierName = Item.Supplier.Name,
+                            SupplierId = evaluation.SupplierId,
+                            SupplierName = supplier.Name,
                             Param0 = evaluation.Param0,
                             Param1 = evaluation.Param1,
                             Param2 = evaluation.Param2,
                             Param3 = evaluation.Param3,
                         });
-					else
+                    else
                         model.Evaluations.Add(new Evaluation
                         {
-                            SupplierId = Item.Supplier.SupplierId,
-                            SupplierName = Item.Supplier.Name,
+                            SupplierId = supplier.SupplierId,
+                            SupplierName = supplier.Name,
                         });
-                        
-                }
-			}
-            model.Evaluations.DistinctBy(x => x.SupplierId);
+                    if (invoice == null)
+                        model.Evaluations.FirstOrDefault(x => x.SupplierId == supplier.SupplierId).Invoice = new InvoiceModel{
+                                IdPurchase = compra.Id,
+                                SupplierId = Item.SupplierId,
+                                TotalPrice = Item.SupplierTotal
+                            };
+                }              
+            }
             return model;
 		}
 
@@ -370,9 +391,7 @@ namespace EPSMGest.Services.Purchase
                             Param3 = evaluation.Param3
                         });
                 }
-				else
-				{
-                    
+				else 
                     fornecedoresEval.Add(new SupplierEvaluationModel
                     {
                         PurchaseId = compra.Id,
@@ -382,7 +401,11 @@ namespace EPSMGest.Services.Purchase
                         Param2 = evaluation.Param2,
                         Param3 = evaluation.Param3
                     });
-                }
+                if(evaluation.Invoice.InvoiceNumber != 0)
+				{
+                    evaluation.Invoice.Date = DateTime.Now;
+                    AppDb.Invoice.Add(evaluation.Invoice);
+				}
 			}
             AppDb.SupplierEvaluation.AddRange(fornecedoresEval);
             AppDb.SaveChanges();

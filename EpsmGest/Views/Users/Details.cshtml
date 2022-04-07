@@ -1,38 +1,67 @@
-﻿@model EpsmGest.ViewModel.UserViewModel
+﻿@model EpsmGest.ViewModel.Users.UserViewModel
+@{
+    ViewData["Title"] = "Utilizador Detalhes";
+}
 
-<div class="p-1 p-md-3 p-lg-4">
-    <div class="card">
-        <h5 class="card-header" style="background-color:rgb(35, 141, 15);color:white;">FATURA</h5>
-        <div class="card-body">
-            <dl class="row">
-                <dt class="col-sm-2">
-                    Nome
-                </dt>
-                <dd class="col-sm-10">
-                    @Html.DisplayFor(model => model.UserName)
-                </dd>
-                <dt class="col-sm-2">
-                    Email
-                </dt>
-                <dd class="col-sm-10">
-                    @Html.DisplayFor(model => model.Email)
-                </dd>
-                <dt class="col-sm-2">
-                    Cargo
-                </dt>
-                <dd class="col-sm-10">
-                    @Html.DisplayFor(model => model.Role)
-                </dd>
-            </dl>
-            <div class="mt-2">
-                <a asp-controller="Utilizadores" asp-action="Index" class="btn btn-secondary"><i class="fas fa-arrow-left"></i> Voltar</a>
-                <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#editModel"><i class="fas fa-user-cog"></i> Alterar Cargo</button>
-                <a asp-controller="Utilizadores" asp-action="AlterarPassword" asp-route-id="@Model.Id" class="btn btn-primary"><i class="fas fa-user-lock"></i> Alterar Password</a>
-                <button type="button" class="btn btn-danger" data-bs-toggle="modal" data-bs-target="#deleteModel"><i class="fas fa-user-slash"></i> Remover</button>
+<!-- Content Header (Page header) -->
+<section class="content-header">
+    <div class="container-fluid">
+        <div class="row mb-2">
+            <div class="col-sm-6">
+                <h1>Gestão de Utilizadores</h1>
+            </div>
+            <div class="col-sm-6">
+                <ol class="breadcrumb float-sm-right">
+                    <li class="breadcrumb-item"><a asp-controller="Home" asp-action="index">Home</a></li>
+                    <li class="breadcrumb-item active">Utilizadores</li>
+                </ol>
             </div>
         </div>
     </div>
-</div>
+    <!-- /.container-fluid -->
+</section>
+
+<!-- Main content -->
+<section class="content">
+    <div class="container-fluid">
+        <div class="row">
+            <div class="col-12">
+                <div class="card">
+                    <partial name="../Shared/_AdminNav" />
+                    <!-- /.card-header -->
+                    <div class="card-body">
+                        <dl class="row">
+                            <dt class="col-sm-2">
+                                Nome
+                            </dt>
+                            <dd class="col-sm-10">
+                                @Html.DisplayFor(model => model.UserName)
+                            </dd>
+                            <dt class="col-sm-2">
+                                Email
+                            </dt>
+                            <dd class="col-sm-10">
+                                @Html.DisplayFor(model => model.Email)
+                            </dd>
+                            <dt class="col-sm-2">
+                                Cargo
+                            </dt>
+                            <dd class="col-sm-10">
+                                @Html.DisplayFor(model => model.Role)
+                            </dd>
+                        </dl>
+                        <div class="mt-2">
+                            <a asp-action="Index" class="btn btn-secondary"><i class="fas fa-arrow-left"></i> Voltar</a>
+                            <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#editModel"><i class="fas fa-user-cog"></i> Alterar Cargo</button>
+                            <a asp-action="ChangePassword" asp-route-id="@Model.Id" class="btn btn-primary"><i class="fas fa-user-lock"></i> Alterar Password</a>
+                            <button type="button" class="btn btn-danger" data-bs-toggle="modal" data-bs-target="#deleteModel"><i class="fas fa-user-slash"></i> Remover</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
 
 <!-- Delete  Modal -->
 <div class="modal fade" id="deleteModel" tabindex="-1" aria-labelledby="deleteModelLabel" aria-hidden="true">
@@ -47,7 +76,7 @@
             </div>
             <div class="modal-footer">
                 <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancelar</button>
-                <a asp-controller="Utilizadores" asp-action="RemoveUser" asp-route-id="@Model.Id" class="btn btn-danger">Apagar</a>
+                <a asp-action="RemoveUser" asp-route-id="@Model.Id" class="btn btn-danger">Apagar</a>
             </div>
         </div>
     </div>
@@ -57,7 +86,7 @@
 <div class="modal fade" id="editModel" tabindex="-1" aria-labelledby="editModelLabel" aria-hidden="true">
     <div class="modal-dialog modal-dialog-scrollable">
         <div class="modal-content">
-            <form asp-controller="Utilizadores" asp-action="AlterarCargo">
+            <form asp-action="EditRole">
                 <div class="modal-header">
                     <h5 class="modal-title" id="exampleModalLabel">Editar Fatura</h5>
                     <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
@@ -78,8 +107,9 @@
         </div>
     </div>
 </div>
+
 @section Scripts {
-    @{
+@{
     await Html.RenderPartialAsync("_ValidationScriptsPartial");
-    }
+}
 }

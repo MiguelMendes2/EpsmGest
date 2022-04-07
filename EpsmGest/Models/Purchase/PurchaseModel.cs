@@ -1,9 +1,8 @@
-﻿using EpsmGest.Models;
-using EpsmGest.ViewModel;
+﻿using EPSMGest.Models.Supplier;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 
-namespace EPSMGest.Models
+namespace EPSMGest.Models.Purchase
 {
     public class PurchaseModel
     {
@@ -16,8 +15,6 @@ namespace EPSMGest.Models
 
         [Required]
         public DateTime Date { get; set; }
-
-        public string Description { get; set; }
 
         public decimal TotalPrice { get; set; }
 

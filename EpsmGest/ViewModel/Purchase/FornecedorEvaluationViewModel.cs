@@ -1,4 +1,6 @@
-﻿namespace EpsmGest.ViewModel.Purchase
+﻿using EPSMGest.Models;
+
+namespace EpsmGest.ViewModel.Purchase
 {
 	public class FornecedorEvaluationViewModel
 	{
@@ -30,5 +32,7 @@
 		public bool Param2 { get; set; } // Prazo de Entrega
 
 		public bool Param3 { get; set; } // Preço
+
+		public InvoiceModel? Invoice { get; set; }
 	}
 }

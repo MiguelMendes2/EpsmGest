@@ -1,4 +1,4 @@
-﻿using EPSMGest.Models;
+﻿using EPSMGest.Models.Supplier;
 using EPSMGest.Services.Supplier;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
@@ -6,7 +6,8 @@ using Microsoft.AspNetCore.Mvc;
 
 namespace EpsmGest.Controllers
 {
-    [Route("Fornecedores/")]
+    [Route("Supplier/")]
+    [Route("Fornecedor/")]    
     [Authorize(Roles = "Administrator,Funcionário DGAR")]
     public class SupplierController : Controller
     {
@@ -25,6 +26,7 @@ namespace EpsmGest.Controllers
 
         [HttpGet]
         [Route("Criar")]
+        [Route("Create")]
         public IActionResult Create()
         {
             return View();
@@ -32,6 +34,7 @@ namespace EpsmGest.Controllers
 
         [HttpPost]
         [Route("Criar")]
+        [Route("Create")]
         [ValidateAntiForgeryToken]
         public IActionResult Create(SupplierModel model)
         {
@@ -41,6 +44,7 @@ namespace EpsmGest.Controllers
         }
 
         [HttpGet]
+        [Route("Details/{id}")]
         [Route("Detalhes/{id}")]
         public IActionResult Details(string id)
         {
@@ -54,6 +58,7 @@ namespace EpsmGest.Controllers
         }
 
         [HttpPost]
+        [Route("Edit")]
         [Route("Editar")]
         [ValidateAntiForgeryToken]
         public IActionResult Edit(SupplierModel model)
@@ -64,6 +69,7 @@ namespace EpsmGest.Controllers
         }
 
         [HttpGet]
+        [Route("Delete/{id}")]
         [Route("Apagar/{id}")]
         public IActionResult Delete(string id)
         {

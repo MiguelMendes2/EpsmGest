@@ -92,7 +92,7 @@
                         <div class="my-1">
                             <div class="form-group">
                                 <label asp-for="DepartamentId" class="control-label">Departamento:</label><br />
-                                @Html.DropDownListFor(x => x.DepartamentId, new SelectList(ViewBag.Departamentos, "DepartamentoId", "Nome"), "-- Selecione Departamento --", new { @class="form-control", @required="required"})
+                                @Html.DropDownListFor(x => x.DepartamentId, new SelectList(ViewBag.Departamentos, "Id", "Name"), "-- Selecione Departamento --", new { @class="form-control", @required="required"})
                                 <span asp-validation-for="DepartamentId" class="text-danger"></span>
                             </div>
                         </div>

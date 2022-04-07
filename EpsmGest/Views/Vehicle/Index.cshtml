@@ -1,0 +1,71 @@
+﻿@model IEnumerable<EPSMGest.Models.Vehicle.VehicleModel>
+
+<!-- Content Header (Page header) -->
+<section class="content-header">
+    <div class="container-fluid">
+        <div class="row mb-2">
+            <div class="col-sm-6">
+                <h1>Viaturas</h1>
+            </div>
+            <div class="col-sm-6">
+                <ol class="breadcrumb float-sm-right">
+                    <li class="breadcrumb-item"><a asp-controller="Home" asp-action="index">Home</a></li>
+                    <li class="breadcrumb-item active">Gestão Viaturas</li>
+                </ol>
+            </div>
+        </div>
+    </div>
+    <!-- /.container-fluid -->
+</section>
+
+<!-- Main content -->
+<section class="content">
+    <div class="container-fluid">
+        <div class="row">
+            <div class="col-12">
+                <div class="card">
+                    <partial name="../Shared/_AdminNav" />
+                    <!-- /.card-header -->
+                    <div class="card-body">
+                        <table id="ContentTable" class="table table-bordered table-hover">
+                            <thead>
+                                <tr>
+                                    <th class="w-25">
+                                        Matricula
+                                    </th>
+                                    <th class="w-25">
+                                        Veiculo
+                                    </th>
+                                    <th>
+                                        <a asp-action="Create" class="btn btn-sm btn-primary"><i class="fas fa-plus"></i> Novo</a>
+                                    </th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                @foreach (var item in Model)
+                                {
+                                    <tr>
+                                        <td>
+                                            @Html.DisplayFor(modelItem => item.License)
+                                        </td>
+                                        <td>
+                                            @Html.DisplayFor(modelItem => item.Name)
+                                        </td>
+                                        <td>
+                                            <a asp-action="Details" asp-route-id="@item.Id" class="btn btn-sm btn-primary">
+                                                <i class="fas fa-edit"></i> Detalhes
+                                            </a>
+                                        </td>
+                                    </tr>
+                                }
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+@section Scripts {
+    <partial name="../Shared/_DataTable" />
+}

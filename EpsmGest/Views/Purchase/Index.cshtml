@@ -1,4 +1,4 @@
-﻿@model IEnumerable<EPSMGest.Models.PurchaseModel>
+﻿@model IEnumerable<EPSMGest.Models.Purchase.PurchaseModel>
 
 @{
     ViewData["Title"] = "Index";
@@ -47,7 +47,7 @@
                                         
                                     </td>
                                     <td>
-                                        @Html.DisplayFor(modelItem => item.Description)
+                                        @Html.DisplayFor(modelItem => item.Requisition.Description)
                                     </td>
                                     <td>
                                         @item.Date.ToString("dd/MM/yyyy")

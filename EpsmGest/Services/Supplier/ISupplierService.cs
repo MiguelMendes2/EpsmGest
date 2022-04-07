@@ -1,5 +1,6 @@
 ﻿using EpsmGest.ViewModel;
-using EPSMGest.Models;
+using EPSMGest.Models.Supplier;
+
 namespace EPSMGest.Services.Supplier
 {
 	public interface ISupplierService

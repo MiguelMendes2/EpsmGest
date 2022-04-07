@@ -1,11 +1,12 @@
 ﻿using EpsmGest.Data;
-using EpsmGest.Services.Utilizadores;
+using EpsmGest.Models;
 using EpsmGest.ViewModel;
+using EpsmGest.ViewModel.Users;
 using Microsoft.AspNetCore.Identity;
 
 namespace EpsmGest.Services.Users
 {
-    public class UsersService : IUsersService
+	public class UsersService : IUsersService
     {
         private readonly UserManager<IdentityUser> UserManager;
         private readonly RoleManager<IdentityRole> RoleManager;

@@ -1,8 +1,8 @@
-﻿using EPSMGest.Models;
+﻿using EPSMGest.Models.Purchase;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 
-namespace EpsmGest.Models
+namespace EPSMGest.Models.Supplier
 {
 	public class SupplierEvaluationModel
 	{

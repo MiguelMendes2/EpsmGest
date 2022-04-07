@@ -1,7 +1,7 @@
 ﻿using EpsmGest.ViewModel;
 using EpsmGest.ViewModel.Purchase;
 using EpsmGest.ViewModel.Requisition;
-using EPSMGest.Models;
+using EPSMGest.Models.Purchase;
 
 namespace EPSMGest.Services.Purchase
 {
@@ -13,7 +13,7 @@ namespace EPSMGest.Services.Purchase
 
         public List<DropdownViewModel> GetPurchasesIds();
 
-        public Task CreatePurchase(CreateRequisitionViewModel model);
+        public Task CreatePurchase(CreateReqPurchaseViewModel model);
 
         public void EditPurchase(PurchaseModel model);
 
@@ -32,6 +32,8 @@ namespace EPSMGest.Services.Purchase
         public bool SetParecer1(ConsultaMercadoViewModel model);
 
         public bool CloseParecer1(int id);
+
+        public ConsultaMercadoViewModel? GetParecer2(int id);
 
         public bool SetParecer2(ConsultaMercadoViewModel model);
 

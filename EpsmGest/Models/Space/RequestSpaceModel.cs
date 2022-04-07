@@ -1,7 +1,7 @@
 ﻿using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 
-namespace EpsmGest.Models.Spaces
+namespace EPSMGest.Models.Space
 {
 	public class RequestSpaceModel
 	{
@@ -10,8 +10,12 @@ namespace EpsmGest.Models.Spaces
 
 		public bool Approval { get; set; }
 
+		[ForeignKey("Requisition")]
+		public string RequisitionId { get; set; }
+		public RequisitionModel Requisition { get; set; }
+
 		[ForeignKey("Space"), Required]
-		public string SpaceId { get; set; }
+		public int SpaceId { get; set; }
 		public SpaceModel Space { get; set; }
 
 		[Required]
@@ -22,10 +26,5 @@ namespace EpsmGest.Models.Spaces
 
 		[Required]
 		public string Activity { get; set; }
-
-		[Required]
-		public string Description { get; set; }
-
-
 	}
 }

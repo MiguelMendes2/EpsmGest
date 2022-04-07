@@ -1,4 +1,4 @@
-﻿@model EPSMGest.Models.SupplierModel
+﻿@model EPSMGest.Models.Supplier.SupplierModel
 
 @{
     ViewData["Title"] = "Create";
@@ -8,7 +8,7 @@
     <div class="card">
         <h5 class="card-header" style="background-color:rgb(35, 141, 15);color:white;">INSERIR FORNECEDOR</h5>
         <div class="card-body">
-            <form asp-action="Create">
+            <form asp-controller="fornecedor" asp-action="Criar">
                 <div class="container-md">
                     <div asp-validation-summary="ModelOnly" class="text-danger"></div>
                     <div class="col-md-5">
@@ -33,7 +33,7 @@
                         </div>
                     </div>
                     <div class="mt-2" style="text-align:right;">
-                        <a asp-action="Index" class="btn btn-primary">Voltar</a>
+                        <a asp-controller="fornecedor" asp-action="Index" class="btn btn-primary">Voltar</a>
                         <input type="submit" id="buttons" class="btn btn-success ml-2" value="Criar">
                     </div>
                 </div>

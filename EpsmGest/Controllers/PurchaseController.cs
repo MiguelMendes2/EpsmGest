@@ -1,16 +1,17 @@
 ﻿using EpsmGest.ViewModel.Purchase;
 using EpsmGest.ViewModel.Requisition;
 using EPSMGest.Models;
-using EPSMGest.Services;
 using EPSMGest.Services.Purchase;
 using EPSMGest.Services.Supplier;
 using EPSMGest.Services.Requisition;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
+using EPSMGest.Models.Purchase;
+using EpsmGest.Services.Department;
 
 namespace EpsmGest.Controllers
 {
-    [Route("Compras/")]
+	[Route("Compras/")]
     [Authorize(Roles = "Administrator,Funcionário DGAR")]
     public class PurchaseController : Controller
     {
@@ -50,7 +51,7 @@ namespace EpsmGest.Controllers
 				{
                     ViewBag.Stage = model.Stage;
                     ViewBag.TotalPrice = model.TotalPrice;
-                    ViewBag.Departamentos = DepartmentService.GetDepartments();
+                    ViewBag.Departamentos = DepartmentService.GetDepartmentIds();
                     ViewBag.TotalPrice = model.TotalPrice;
                     return View(model);
                 }
@@ -149,7 +150,7 @@ namespace EpsmGest.Controllers
         [Route("SetParecer1")]
         public IActionResult SetParecer1(ConsultaMercadoViewModel model)
         {
-            if (model.Id != 0 && model.Stage == 0)
+            if (model.Id != 0 && model.Stage == 1)
             {
                 var result = PurchaseService.SetParecer1(model);
                 if (result)
@@ -187,7 +188,7 @@ namespace EpsmGest.Controllers
             if (Int32.TryParse(id, out int result))
             {
                 ViewBag.Id = id;
-                var model = PurchaseService.GetConsultaMercado(result);
+                var model = PurchaseService.GetParecer2(result);
                 if (model == null)
                     return NotFound();
                 ViewBag.Stage = model.Stage;
@@ -201,7 +202,7 @@ namespace EpsmGest.Controllers
         [Route("SetParecer2")]
         public IActionResult SetParecer2(ConsultaMercadoViewModel model)
         {
-            if (model.Id != 0 && model.Stage == 0)
+            if (model.Id != 0 && model.Stage == 2)
             {
                 var result = PurchaseService.SetParecer2(model);
                 if (result)
@@ -209,7 +210,7 @@ namespace EpsmGest.Controllers
                 else
                     TempData["Error"] = "Não foi possivel adicionar o parecer 2, tente novamente mais tarde!";
             }
-            return RedirectToAction("ConsultaMercado", new { id = model.Id });
+            return RedirectToAction("Parecer2", new { id = model.Id });
         }
 
         [HttpGet]
@@ -228,11 +229,6 @@ namespace EpsmGest.Controllers
             TempData["Error"] = "Não foi possivel fechar a consulta de mercado";
             return RedirectToAction("Parecer2", new { id = id });
         }
-
-        /* -------
-          ADJUDICAÇÃO
-           ------- */
-
 
         /* -------
           AVALIAÇÃO

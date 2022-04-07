@@ -1,4 +1,4 @@
-﻿@model EPSMGest.Models.SupplierModel
+﻿@model EPSMGest.Models.Supplier.SupplierModel
 
 @{
     ViewData["Title"] = "Details";
@@ -29,7 +29,7 @@
                 </dd>
             </dl>
             <div class="mt-2">
-                <a asp-action="Index" class="btn btn-secondary"><i class="fas fa-arrow-left"></i> Voltar</a>
+                <a asp-controller="fornecedor" asp-action="Index" class="btn btn-secondary"><i class="fas fa-arrow-left"></i> Voltar</a>
                 <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#editModel"><i class="fas fa-edit"></i> Editar</button>
                 <button type="button" class="btn btn-danger" data-bs-toggle="modal" data-bs-target="#deleteModel"><i class="fas fa-trash-alt"></i> Apagar</button>
             </div>
@@ -52,7 +52,7 @@
             </div>
             <div class="modal-footer">
                 <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancelar</button>
-                <a asp-action="Apagar" asp-route-id="@Model.SupplierId" class="btn btn-danger">Apagar</a>
+                <a asp-controller="fornecedor" asp-action="Apagar" asp-route-id="@Model.SupplierId" class="btn btn-danger">Apagar</a>
             </div>
         </div>
     </div>
@@ -62,7 +62,7 @@
 <div class="modal fade" id="editModel" tabindex="-1" aria-labelledby="editModelLabel" aria-hidden="true">
     <div class="modal-dialog modal-dialog-scrollable">
         <div class="modal-content">
-            <form asp-action="Editar">
+            <form asp-controller="Fornecedor" asp-action="Editar">
                 <div class="modal-header">
                     <h5 class="modal-title" id="exampleModalLabel">Editar Requesição</h5>
                     <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>

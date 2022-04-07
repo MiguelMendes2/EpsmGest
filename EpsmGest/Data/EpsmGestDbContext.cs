@@ -1,15 +1,16 @@
-﻿using EpsmGest.Models;
-using EpsmGest.Models.Spaces;
-using EpsmGest.Models.Stocks;
-using EpsmGest.Models.Vehicles;
-using EpsmGest.ViewModel;
-using EPSMGest.Models;
+﻿using EPSMGest.Models;
+using EPSMGest.Models.Purchase;
+using EPSMGest.Models.Space;
+using EPSMGest.Models.Stocks;
+using EPSMGest.Models.Supplier;
+using EPSMGest.Models.Vehicle;
+using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore;
 
 namespace EpsmGest.Data
 {
-    public class EpsmGestDbContext : IdentityDbContext<UserExtensionModel>
+    public class EpsmGestDbContext : IdentityDbContext<IdentityUser>
     {
         public EpsmGestDbContext(DbContextOptions<EpsmGestDbContext> options)
             : base(options)
@@ -24,8 +25,6 @@ namespace EpsmGest.Data
         public DbSet<PurchaseItemModel> PurchaseItem { get; set; }
 
         // --- Space ---
-
-        
 
         public DbSet<RequestSpaceModel> RequestSpace { get; set; }
 

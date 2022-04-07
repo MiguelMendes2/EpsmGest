@@ -1,4 +1,4 @@
-﻿@model IEnumerable<EPSMGest.Models.SupplierModel>
+﻿@model IEnumerable<EPSMGest.Models.Supplier.SupplierModel>
 
 @{
     ViewData["Title"] = "Index";
@@ -21,7 +21,7 @@
                             NIF
                         </th>
                         <th>
-                            <a asp-action="Create" class="btn btn-sm btn-primary"><i class="fas fa-plus"></i> Novo</a>
+                            <a asp-controller="fornecedor" asp-action="Criar" class="btn btn-sm btn-primary"><i class="fas fa-plus"></i> Novo</a>
                         </th>
                     </tr>
                 </thead>
@@ -43,7 +43,7 @@
                                         @Html.DisplayFor(modelItem => item.NIF)
                                     </td>
                                     <td>
-                                        <a asp-action="Detalhes" asp-route-id="@item.SupplierId" class="btn btn-primary"><i class="fas fa-clipboard-list"></i></a>
+                                        <a asp-controller="fornecedor" asp-action="Detalhes" asp-route-id="@item.SupplierId" class="btn btn-primary"><i class="fas fa-clipboard-list"></i></a>
                                     </td>
                                 </tr>
                             }

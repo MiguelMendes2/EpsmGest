@@ -1,0 +1,59 @@
+﻿@model EPSMGest.Models.DepartmentModel
+@{
+    ViewData["Title"] = "Novo Departamento";
+}
+
+<!-- Content Header (Page header) -->
+<section class="content-header">
+    <div class="container-fluid">
+        <div class="row mb-2">
+            <div class="col-sm-6">
+                <h1>Gestão de Departamentos</h1>
+            </div>
+            <div class="col-sm-6">
+                <ol class="breadcrumb float-sm-right">
+                    <li class="breadcrumb-item"><a asp-controller="Home" asp-action="index">Home</a></li>
+                    <li class="breadcrumb-item active">Departamentos</li>
+                </ol>
+            </div>
+        </div>
+    </div>
+    <!-- /.container-fluid -->
+</section>
+
+<!-- Main content -->
+<section class="content">
+    <div class="container-fluid">
+        <div class="row">
+            <div class="col-12">
+                <div class="card">
+                    <partial name="../Shared/_AdminNav" />
+                    <!-- /.card-header -->
+                    <div class="card-body">
+                        <form asp-action="Create">
+                            <div class="container-md">
+                                <div class="col-md-5 mt-2">
+                                    <div class="form-group">
+                                        <label asp-for="Name" class="control-label">Nome:</label>
+                                        <input asp-for="Name" class="form-control" />
+                                        <span asp-validation-for="Name" class="text-danger"></span>
+                                    </div>
+                                </div>
+                                <div class="mt-2" style="text-align:right;">
+                                    <a asp-action="Index" class="btn btn-primary"><i class="fas fa-arrow-left"></i> Voltar</a>
+                                    <button type="submit" id="buttons" class="btn btn-success ml-2"><i class="fas fa-plus"></i> Criar</button>
+                                </div>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+@section Scripts {
+    @{
+        await Html.RenderPartialAsync("_ValidationScriptsPartial");
+    }
+}

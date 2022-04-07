@@ -12,63 +12,63 @@
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>@ViewData["Title"] - EPSMGest</title>
-
-    <link rel="stylesheet" type="text/css" href="~/css/login.css">
-    <link rel="stylesheet" href="~/lib/bootstrap/dist/css/bootstrap.min.css" />
+    <link rel="stylesheet" href="~/css/adminlte.min.css" />
+    <link rel="stylesheet" href="~/lib/fontawesome-free/css/all.min.css" />
 </head>
-<body>
-    <div id="fundoLogin">
-            <div id="imagemFundo" style="position:relative;">                
-                <img src="~/imagens/fundo.jpg" alt="" id="imagem">  
-                <img src="~/imagens/epsmlogoGrande.png" alt="" style="top: 25%;position: absolute;left: 17%;">
+<body class="hold-transition login-page">
+    <div class="login-box">
+        <div class="card card-outline card-primary">
+            <div class="card-header text-center">
+                <b>EPSM</b>Gest
             </div>
-            <div id="loginbox">
+            <div class="card-body">
+                <form id="account" method="post">
+                    <div class="input-group mb-3">
+                        <input asp-for="Input.Email" class="form-control" autocomplete="username" aria-required="true" placeholder="Email" />
+                        <div class="input-group-append">
+                            <div class="input-group-text">
+                                <span class="fas fa-envelope"></span>
+                            </div>
+                        </div>
+                    </div>
+                    <span asp-validation-for="Input.Email" class="text-danger"></span>
+                    <div class="input-group mb-3">
+                        <input asp-for="Input.Password" class="form-control" autocomplete="current-password" aria-required="true" placeholder="Password" />
+                        <div class="input-group-append">
+                            <div class="input-group-text">
+                                <span class="fas fa-lock"></span>
+                            </div>
+                        </div>
+                    </div>
+                    <span asp-validation-for="Input.Password" class="text-danger"></span>
+                    <div class="row">
+                        <div class="col-8">
+                            <div class="icheck-primary">
+                                <input type="checkbox" asp-for="Input.RememberMe" />
+                                <label asp-for="Input.RememberMe">
+                                    Lembrar-me
+                                </label>
+                            </div>
+                        </div>
+                        <div class="col-4">
+                            <button type="submit" class="btn btn-primary btn-block">Entrar</button>
+                        </div>
+                    </div>
+                </form>
 
-                <div id="login">
-                    <h1>@ViewData["Title"]</h1>
-                    <section>
-                        <form id="account" method="post">
-                            <hr />
-                            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
-                            <div class="form-floating">
-                                <input asp-for="Input.Email" class="form-control" autocomplete="username" aria-required="true" />
-                                <label asp-for="Input.Email" class="form-label"></label>
-                                <span asp-validation-for="Input.Email" class="text-danger"></span>
-                            </div>
-                            <div class="form-floating">
-                                <input asp-for="Input.Password" class="form-control" autocomplete="current-password" aria-required="true" />
-                                <label asp-for="Input.Password" class="form-label"></label>
-                                <span asp-validation-for="Input.Password" class="text-danger"></span>
-                            </div>
-                            <div>
-                                <div class="checkbox">
-                                    <label asp-for="Input.RememberMe" class="form-label">
-                                        <input class="form-check-input" asp-for="Input.RememberMe" />
-                                        @Html.DisplayNameFor(m => m.Input.RememberMe)
-                                    </label>
-                                </div>
-                            </div>
-                            <div>
-                                <button id="login-submit" type="submit" class="w-100 btn btn-lg btn-primary">Log in</button>
-                            </div>
-                            <div>
-                                <p>
-                                    <a id="forgot-password" asp-page="./ForgotPassword">Forgot your password?</a>
-                                </p>
-                                <p>
-                                    <a id="resend-confirmation" asp-page="./ResendEmailConfirmation">Resend email confirmation</a>
-                                </p>
-                            </div>
-                        </form>
-                    </section>
-                </div>
+                <p class="mb-1">
+                    <a asp-page="./ForgotPassword">Esqueceu-se da password?</a>
+                </p>
+                <p class="mb-0">
+                    <a asp-page="./ResendEmailConfirmation" class="text-center">Renviar confirmação de email</a>
+                </p>
             </div>
         </div>
-    <script src="~/lib/jquery/dist/jquery.min.js"></script>
-    <script src="~/lib/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
-    <script src="~/js/site.js" asp-append-version="true"></script>
+    </div>
+    <script src="~/js/adminlte.min.js"></script>
+    <partial name="../../../../Views/Shared/_Toastr" />
     @section Scripts {
-        <partial name="_ValidationScriptsPartial" />
+    <partial name="_ValidationScriptsPartial" />
     }
 </body>
 </html>

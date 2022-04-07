@@ -1,8 +1,8 @@
-﻿using EpsmGest.Models.Stocks;
+﻿using EPSMGest.Models.Stocks;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 
-namespace EpsmGest.Models
+namespace EPSMGest.Models.Stocks
 {
 	public class StockModel
 	{

@@ -1,0 +1,16 @@
+﻿@{
+    var controllerName = ViewContext.RouteData.Values["controller"]?.ToString();
+}
+<div class="card-header">
+    <ul class="nav nav-tabs card-header-tabs">
+        <li class="nav-item">
+            <a class="nav-link @(controllerName == "Department" ? "active" : "")" asp-controller="Department" asp-action="Index"><i class="fas fa-building"></i> Departamentos</a>
+        </li>
+        <li class="nav-item">
+            <a class="nav-link @(controllerName == "Users" ? "active" : "")" asp-controller="Users" asp-action="Index"><i class="fas fa-users"></i> Utilizadores</a>
+        </li>
+        <li class="nav-item">
+            <a class="nav-link @(controllerName == "Vehicle" ? "active" : "")" asp-controller="Vehicle" asp-action="Index"><i class="fas fa-car-side"></i> Viaturas</a>
+        </li>
+    </ul>
+</div>

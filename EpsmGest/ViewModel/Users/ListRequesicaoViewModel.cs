@@ -1,18 +1,18 @@
 ﻿using System.ComponentModel.DataAnnotations;
 
-namespace EpsmGest.ViewModel
+namespace EpsmGest.ViewModel.Users
 {
-    public class ListRequesicaoViewModel
-    {
-        [Key]
-        public string? RequisicaoId { get; set; }
+	public class ListRequesicaoViewModel
+	{
+		[Key]
+		public string? RequisicaoId { get; set; }
 
-        public string? DepartamentoId { get; set; }
+		public string? DepartamentoId { get; set; }
 
-        public string? Requerente { get; set; }
+		public string? Requerente { get; set; }
 
-        public string? Descricao { get; set; }
+		public string? Descricao { get; set; }
 
-        public DateTime date { get; set; }
-    }
+		public DateTime date { get; set; }
+	}
 }

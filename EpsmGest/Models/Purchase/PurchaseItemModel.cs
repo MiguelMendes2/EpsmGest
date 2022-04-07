@@ -1,8 +1,8 @@
-﻿using EPSMGest.Models;
+﻿using EPSMGest.Models.Supplier;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 
-namespace EpsmGest.ViewModel
+namespace EPSMGest.Models.Purchase
 {
 	public class PurchaseItemModel
 	{

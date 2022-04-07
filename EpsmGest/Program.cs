@@ -1,24 +1,16 @@
 using EpsmGest.Data;
 using EpsmGest.Helpers;
 using EpsmGest.Services.Users;
-using EpsmGest.Services.Utilizadores;
-using EPSMGest.Services;
 using EPSMGest.Services.Purchase;
 using EPSMGest.Services.Invoice;
 using EPSMGest.Services.Supplier;
 using EPSMGest.Services.Requisition;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
+using EpsmGest.Services.Vehicle;
+using EpsmGest.Services.Department;
 
 var builder = WebApplication.CreateBuilder(args);
-
-// Add services to the container.
-builder.Services.AddScoped<IPurchaseService, PurchaseService>();
-builder.Services.AddScoped<IDepartmentService, DepartmentService>();
-builder.Services.AddScoped<IInvoiceService, InvoiceService>();
-builder.Services.AddScoped<ISupplierService, SupplierService>();
-builder.Services.AddScoped<IRequisitionService, RequisitionService>();
-builder.Services.AddScoped<IUsersService, UsersService>();
 
 var connectionString = builder.Configuration.GetConnectionString("DefaultConnection");
 builder.Services.AddDbContext<EpsmGestDbContext>(options =>
@@ -34,9 +26,17 @@ builder.Services.AddDefaultIdentity<IdentityUser>(o =>
     o.Password.RequireNonAlphanumeric = false;
     o.Password.RequiredLength = 6;
 }).AddRoles<IdentityRole>()
-    .AddEntityFrameworkStores<EpsmGestDbContext>();
+  .AddEntityFrameworkStores<EpsmGestDbContext>();
 builder.Services.AddControllersWithViews();
 
+// Add services to the container.
+builder.Services.AddScoped<IPurchaseService, PurchaseService>();
+builder.Services.AddScoped<IDepartmentService, DepartmentService>();
+builder.Services.AddScoped<IInvoiceService, InvoiceService>();
+builder.Services.AddScoped<ISupplierService, SupplierService>();
+builder.Services.AddScoped<IRequisitionService, RequisitionService>();
+builder.Services.AddScoped<IUsersService, UsersService>();
+builder.Services.AddScoped<IVehicleService, VehicleService>();
 
 var app = builder.Build();
 // Configure the HTTP request pipeline.

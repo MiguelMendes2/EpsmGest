@@ -1,35 +1,75 @@
 ﻿@model IEnumerable<EPSMGest.Models.DepartmentModel>
 
 @{
-    ViewData["Title"] = "Index";
+    ViewData["Title"] = "Departamentos";
 }
 
-<h1>Index</h1>
+<!-- Content Header (Page header) -->
+<section class="content-header">
+    <div class="container-fluid">
+        <div class="row mb-2">
+            <div class="col-sm-6">
+                <h1>Gestão de Departamentos</h1>
+            </div>
+            <div class="col-sm-6">
+                <ol class="breadcrumb float-sm-right">
+                    <li class="breadcrumb-item"><a asp-controller="Home" asp-action="index">Home</a></li>
+                    <li class="breadcrumb-item active">Departamento</li>
+                </ol>
+            </div>
+        </div>
+    </div>
+    <!-- /.container-fluid -->
+</section>
 
-<p>
-    <a asp-action="Create">Create New</a>
-</p>
-<table class="table">
-    <thead>
-        <tr>
-            <th>
-                @Html.DisplayNameFor(model => model.Name)
-            </th>
-            <th></th>
-        </tr>
-    </thead>
-    <tbody>
-@foreach (var item in Model) {
-        <tr>
-            <td>
-                @Html.DisplayFor(modelItem => item.Name)
-            </td>
-            <td>
-                <a asp-action="Edit" asp-route-id="@item.DepartamentId">Edit</a> |
-                <a asp-action="Details" asp-route-id="@item.DepartamentId">Details</a> |
-                <a asp-action="Delete" asp-route-id="@item.DepartamentId">Delete</a>
-            </td>
-        </tr>
+<!-- Main content -->
+<section class="content">
+    <div class="container-fluid">
+        <div class="row">
+            <div class="col-12">
+                <div class="card">
+                    <partial name="../Shared/_AdminNav" />
+                    <!-- /.card-header -->
+                    <div class="card-body">
+                        <table id="ContentTable" class="table table-bordered table-hover">
+                            <thead>
+                                <tr>
+                                    <th class="w-50">
+                                        Nome
+                                    </th>
+                                    <th><a asp-action="Create" class="btn btn-sm btn-primary"><i class="fas fa-plus"></i> Novo</a></th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                @if (Model != null)
+                                {
+                                    @if (Model.Count() != 0)
+                                    {
+                                        @foreach (var item in Model)
+                                        {
+                                            <tr>
+                                                <td>
+                                                    @Html.DisplayFor(modelItem => item.Name)
+                                                </td>
+                                                <td>
+                                                    <a asp-action="Details" asp-route-id="@item.DepartamentId" class="btn btn-sm btn-primary"><i class="fas fa-clipboard-list"></i> Detalhes</a>
+                                                </td>
+                                            </tr>
+                                        }
+                                    }
+                                    else
+                                    {
+                                        <tr><td colspan="2" class="text-center">Vazio</td></tr>
+                                    }
+                                }
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+@section Scripts{
+<partial name="../Shared/_DataTable" />
 }
-    </tbody>
-</table>

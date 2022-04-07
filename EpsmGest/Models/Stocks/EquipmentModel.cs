@@ -1,7 +1,8 @@
-﻿using System.ComponentModel.DataAnnotations;
+﻿using EPSMGest.Models.Intervention;
+using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 
-namespace EpsmGest.Models.Stocks
+namespace EPSMGest.Models.Stocks
 {
 	public class EquipmentModel
 	{
@@ -16,5 +17,5 @@ namespace EpsmGest.Models.Stocks
 
 		[Required, Range(1,Int32.MaxValue)]
 		public int Quantity { get; set; }
-	}
+	}	
 }

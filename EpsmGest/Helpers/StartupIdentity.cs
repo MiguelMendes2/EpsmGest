@@ -1,4 +1,5 @@
 ﻿using EpsmGest.Data;
+using EpsmGest.Models;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 

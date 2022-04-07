@@ -9,13 +9,22 @@
 
   <ItemGroup>
     <Compile Remove="Services\Fornecedores\**" />
+    <Compile Remove="wwwroot\lib\signalr\**" />
     <Content Remove="Services\Fornecedores\**" />
+    <Content Remove="wwwroot\lib\signalr\**" />
     <EmbeddedResource Remove="Services\Fornecedores\**" />
+    <EmbeddedResource Remove="wwwroot\lib\signalr\**" />
     <None Remove="Services\Fornecedores\**" />
+    <None Remove="wwwroot\lib\signalr\**" />
   </ItemGroup>
 
   <ItemGroup>
-    <None Include="wwwroot\js\site.js" />
+    <None Include="wwwroot\css\adminlte.css.map" />
+    <None Include="wwwroot\css\adminlte.min.css.map" />
+    <None Include="wwwroot\js\adminlte.js" />
+    <None Include="wwwroot\js\adminlte.js.map" />
+    <None Include="wwwroot\js\adminlte.min.js" />
+    <None Include="wwwroot\js\adminlte.min.js.map" />
     <None Include="wwwroot\lib\bootstrap\dist\css\bootstrap-grid.css.map" />
     <None Include="wwwroot\lib\bootstrap\dist\css\bootstrap-grid.min.css.map" />
     <None Include="wwwroot\lib\bootstrap\dist\css\bootstrap-grid.rtl.css.map" />
@@ -45,6 +54,125 @@
     <None Include="wwwroot\lib\bootstrap\dist\js\bootstrap.min.js" />
     <None Include="wwwroot\lib\bootstrap\dist\js\bootstrap.min.js.map" />
     <None Include="wwwroot\lib\bootstrap\LICENSE" />
+    <None Include="wwwroot\lib\ChartJs\auto\auto.esm.js" />
+    <None Include="wwwroot\lib\ChartJs\auto\auto.js" />
+    <None Include="wwwroot\lib\ChartJs\dist\chart.esm.js" />
+    <None Include="wwwroot\lib\ChartJs\dist\chart.js" />
+    <None Include="wwwroot\lib\ChartJs\dist\chart.min.js" />
+    <None Include="wwwroot\lib\ChartJs\dist\chunks\helpers.segment.js" />
+    <None Include="wwwroot\lib\ChartJs\dist\helpers.esm.js" />
+    <None Include="wwwroot\lib\ChartJs\helpers\helpers.esm.js" />
+    <None Include="wwwroot\lib\ChartJs\helpers\helpers.js" />
+    <None Include="wwwroot\lib\ChartJs\LICENSE.md" />
+    <None Include="wwwroot\lib\ChartJs\README.md" />
+    <None Include="wwwroot\lib\chart\Chart.bundle.js" />
+    <None Include="wwwroot\lib\chart\Chart.bundle.min.js" />
+    <None Include="wwwroot\lib\chart\Chart.js" />
+    <None Include="wwwroot\lib\chart\Chart.min.js" />
+    <None Include="wwwroot\lib\datatables-bs4\js\dataTables.bootstrap4.js" />
+    <None Include="wwwroot\lib\datatables-bs4\js\dataTables.bootstrap4.min.js" />
+    <None Include="wwwroot\lib\datatables-buttons\js\buttons.bootstrap4.js" />
+    <None Include="wwwroot\lib\datatables-buttons\js\buttons.bootstrap4.min.js" />
+    <None Include="wwwroot\lib\datatables-buttons\js\buttons.colVis.js" />
+    <None Include="wwwroot\lib\datatables-buttons\js\buttons.colVis.min.js" />
+    <None Include="wwwroot\lib\datatables-buttons\js\buttons.flash.js" />
+    <None Include="wwwroot\lib\datatables-buttons\js\buttons.flash.min.js" />
+    <None Include="wwwroot\lib\datatables-buttons\js\buttons.html5.js" />
+    <None Include="wwwroot\lib\datatables-buttons\js\buttons.html5.min.js" />
+    <None Include="wwwroot\lib\datatables-buttons\js\buttons.print.js" />
+    <None Include="wwwroot\lib\datatables-buttons\js\buttons.print.min.js" />
+    <None Include="wwwroot\lib\datatables-buttons\js\dataTables.buttons.js" />
+    <None Include="wwwroot\lib\datatables-buttons\js\dataTables.buttons.min.js" />
+    <None Include="wwwroot\lib\datatables-responsive\js\dataTables.responsive.js" />
+    <None Include="wwwroot\lib\datatables-responsive\js\dataTables.responsive.min.js" />
+    <None Include="wwwroot\lib\datatables-responsive\js\responsive.bootstrap4.js" />
+    <None Include="wwwroot\lib\datatables-responsive\js\responsive.bootstrap4.min.js" />
+    <None Include="wwwroot\lib\datatables\jquery.dataTables.js" />
+    <None Include="wwwroot\lib\datatables\jquery.dataTables.min.js" />
+    <None Include="wwwroot\lib\fontawesome-free\webfonts\fa-brands-400.svg" />
+    <None Include="wwwroot\lib\fontawesome-free\webfonts\fa-brands-400.woff2" />
+    <None Include="wwwroot\lib\fontawesome-free\webfonts\fa-regular-400.svg" />
+    <None Include="wwwroot\lib\fontawesome-free\webfonts\fa-regular-400.woff2" />
+    <None Include="wwwroot\lib\fontawesome-free\webfonts\fa-solid-900.svg" />
+    <None Include="wwwroot\lib\fontawesome-free\webfonts\fa-solid-900.woff2" />
+    <None Include="wwwroot\lib\FullCalendar\locales-all.js" />
+    <None Include="wwwroot\lib\FullCalendar\locales-all.min.js" />
+    <None Include="wwwroot\lib\FullCalendar\locales\af.js" />
+    <None Include="wwwroot\lib\FullCalendar\locales\ar-dz.js" />
+    <None Include="wwwroot\lib\FullCalendar\locales\ar-kw.js" />
+    <None Include="wwwroot\lib\FullCalendar\locales\ar-ly.js" />
+    <None Include="wwwroot\lib\FullCalendar\locales\ar-ma.js" />
+    <None Include="wwwroot\lib\FullCalendar\locales\ar-sa.js" />
+    <None Include="wwwroot\lib\FullCalendar\locales\ar-tn.js" />
+    <None Include="wwwroot\lib\FullCalendar\locales\ar.js" />
+    <None Include="wwwroot\lib\FullCalendar\locales\az.js" />
+    <None Include="wwwroot\lib\FullCalendar\locales\bg.js" />
+    <None Include="wwwroot\lib\FullCalendar\locales\bs.js" />
+    <None Include="wwwroot\lib\FullCalendar\locales\ca.js" />
+    <None Include="wwwroot\lib\FullCalendar\locales\cs.js" />
+    <None Include="wwwroot\lib\FullCalendar\locales\cy.js" />
+    <None Include="wwwroot\lib\FullCalendar\locales\da.js" />
+    <None Include="wwwroot\lib\FullCalendar\locales\de-at.js" />
+    <None Include="wwwroot\lib\FullCalendar\locales\de.js" />
+    <None Include="wwwroot\lib\FullCalendar\locales\el.js" />
+    <None Include="wwwroot\lib\FullCalendar\locales\en-au.js" />
+    <None Include="wwwroot\lib\FullCalendar\locales\en-gb.js" />
+    <None Include="wwwroot\lib\FullCalendar\locales\en-nz.js" />
+    <None Include="wwwroot\lib\FullCalendar\locales\eo.js" />
+    <None Include="wwwroot\lib\FullCalendar\locales\es-us.js" />
+    <None Include="wwwroot\lib\FullCalendar\locales\es.js" />
+    <None Include="wwwroot\lib\FullCalendar\locales\et.js" />
+    <None Include="wwwroot\lib\FullCalendar\locales\eu.js" />
+    <None Include="wwwroot\lib\FullCalendar\locales\fa.js" />
+    <None Include="wwwroot\lib\FullCalendar\locales\fi.js" />
+    <None Include="wwwroot\lib\FullCalendar\locales\fr-ca.js" />
+    <None Include="wwwroot\lib\FullCalendar\locales\fr-ch.js" />
+    <None Include="wwwroot\lib\FullCalendar\locales\fr.js" />
+    <None Include="wwwroot\lib\FullCalendar\locales\gl.js" />
+    <None Include="wwwroot\lib\FullCalendar\locales\he.js" />
+    <None Include="wwwroot\lib\FullCalendar\locales\hi.js" />
+    <None Include="wwwroot\lib\FullCalendar\locales\hr.js" />
+    <None Include="wwwroot\lib\FullCalendar\locales\hu.js" />
+    <None Include="wwwroot\lib\FullCalendar\locales\hy-am.js" />
+    <None Include="wwwroot\lib\FullCalendar\locales\id.js" />
+    <None Include="wwwroot\lib\FullCalendar\locales\is.js" />
+    <None Include="wwwroot\lib\FullCalendar\locales\it.js" />
+    <None Include="wwwroot\lib\FullCalendar\locales\ja.js" />
+    <None Include="wwwroot\lib\FullCalendar\locales\ka.js" />
+    <None Include="wwwroot\lib\FullCalendar\locales\kk.js" />
+    <None Include="wwwroot\lib\FullCalendar\locales\ko.js" />
+    <None Include="wwwroot\lib\FullCalendar\locales\lb.js" />
+    <None Include="wwwroot\lib\FullCalendar\locales\lt.js" />
+    <None Include="wwwroot\lib\FullCalendar\locales\lv.js" />
+    <None Include="wwwroot\lib\FullCalendar\locales\mk.js" />
+    <None Include="wwwroot\lib\FullCalendar\locales\ms.js" />
+    <None Include="wwwroot\lib\FullCalendar\locales\nb.js" />
+    <None Include="wwwroot\lib\FullCalendar\locales\ne.js" />
+    <None Include="wwwroot\lib\FullCalendar\locales\nl.js" />
+    <None Include="wwwroot\lib\FullCalendar\locales\nn.js" />
+    <None Include="wwwroot\lib\FullCalendar\locales\pl.js" />
+    <None Include="wwwroot\lib\FullCalendar\locales\pt-br.js" />
+    <None Include="wwwroot\lib\FullCalendar\locales\pt.js" />
+    <None Include="wwwroot\lib\FullCalendar\locales\ro.js" />
+    <None Include="wwwroot\lib\FullCalendar\locales\ru.js" />
+    <None Include="wwwroot\lib\FullCalendar\locales\sk.js" />
+    <None Include="wwwroot\lib\FullCalendar\locales\sl.js" />
+    <None Include="wwwroot\lib\FullCalendar\locales\sq.js" />
+    <None Include="wwwroot\lib\FullCalendar\locales\sr-cyrl.js" />
+    <None Include="wwwroot\lib\FullCalendar\locales\sr.js" />
+    <None Include="wwwroot\lib\FullCalendar\locales\sv.js" />
+    <None Include="wwwroot\lib\FullCalendar\locales\ta-in.js" />
+    <None Include="wwwroot\lib\FullCalendar\locales\th.js" />
+    <None Include="wwwroot\lib\FullCalendar\locales\tr.js" />
+    <None Include="wwwroot\lib\FullCalendar\locales\ug.js" />
+    <None Include="wwwroot\lib\FullCalendar\locales\uk.js" />
+    <None Include="wwwroot\lib\FullCalendar\locales\uz.js" />
+    <None Include="wwwroot\lib\FullCalendar\locales\vi.js" />
+    <None Include="wwwroot\lib\FullCalendar\locales\zh-cn.js" />
+    <None Include="wwwroot\lib\FullCalendar\locales\zh-tw.js" />
+    <None Include="wwwroot\lib\FullCalendar\main.js" />
+    <None Include="wwwroot\lib\FullCalendar\main.min.js" />
+    <None Include="wwwroot\lib\icheck-bootstrap\LICENSE" />
     <None Include="wwwroot\lib\jquery-validation-unobtrusive\jquery.validate.unobtrusive.js" />
     <None Include="wwwroot\lib\jquery-validation-unobtrusive\jquery.validate.unobtrusive.min.js" />
     <None Include="wwwroot\lib\jquery-validation\dist\additional-methods.js" />
@@ -58,20 +186,54 @@
   </ItemGroup>
 
   <ItemGroup>
-    <PackageReference Include="Microsoft.AspNetCore.Diagnostics.EntityFrameworkCore" Version="6.0.0" />
-    <PackageReference Include="Microsoft.AspNetCore.Identity.EntityFrameworkCore" Version="6.0.1" />
-    <PackageReference Include="Microsoft.AspNetCore.Identity.UI" Version="6.0.1" />
-    <PackageReference Include="Microsoft.EntityFrameworkCore.SqlServer" Version="6.0.1" />
-    <PackageReference Include="Microsoft.EntityFrameworkCore.Tools" Version="6.0.1">
+    <PackageReference Include="Microsoft.AspNetCore.Diagnostics.EntityFrameworkCore" Version="6.0.3" />
+    <PackageReference Include="Microsoft.AspNetCore.Identity.EntityFrameworkCore" Version="6.0.3" />
+    <PackageReference Include="Microsoft.AspNetCore.Identity.UI" Version="6.0.3" />
+    <PackageReference Include="Microsoft.EntityFrameworkCore.Design" Version="6.0.3">
       <PrivateAssets>all</PrivateAssets>
       <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
     </PackageReference>
+    <PackageReference Include="Microsoft.EntityFrameworkCore.SqlServer" Version="6.0.3" />
+    <PackageReference Include="Microsoft.EntityFrameworkCore.Tools" Version="6.0.3">
+      <PrivateAssets>all</PrivateAssets>
+      <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
+    </PackageReference>
+    <PackageReference Include="Microsoft.VisualStudio.Web.CodeGeneration" Version="6.0.2" />
     <PackageReference Include="Microsoft.VisualStudio.Web.CodeGeneration.Design" Version="6.0.2" />
   </ItemGroup>
 
   <ItemGroup>
-    <Folder Include="wwwroot\imagens\ReqIntervation\" />
-    <Folder Include="wwwroot\NewFolder\" />
+    <Folder Include="Files\" />
+    <Folder Include="wwwroot\img\Temp\" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <TypeScriptCompile Include="wwwroot\lib\ChartJs\auto\auto.esm.d.ts" />
+    <TypeScriptCompile Include="wwwroot\lib\ChartJs\helpers\helpers.esm.d.ts" />
+    <TypeScriptCompile Include="wwwroot\lib\ChartJs\types\adapters.d.ts" />
+    <TypeScriptCompile Include="wwwroot\lib\ChartJs\types\animation.d.ts" />
+    <TypeScriptCompile Include="wwwroot\lib\ChartJs\types\basic.d.ts" />
+    <TypeScriptCompile Include="wwwroot\lib\ChartJs\types\color.d.ts" />
+    <TypeScriptCompile Include="wwwroot\lib\ChartJs\types\element.d.ts" />
+    <TypeScriptCompile Include="wwwroot\lib\ChartJs\types\geometric.d.ts" />
+    <TypeScriptCompile Include="wwwroot\lib\ChartJs\types\helpers\helpers.canvas.d.ts" />
+    <TypeScriptCompile Include="wwwroot\lib\ChartJs\types\helpers\helpers.collection.d.ts" />
+    <TypeScriptCompile Include="wwwroot\lib\ChartJs\types\helpers\helpers.color.d.ts" />
+    <TypeScriptCompile Include="wwwroot\lib\ChartJs\types\helpers\helpers.core.d.ts" />
+    <TypeScriptCompile Include="wwwroot\lib\ChartJs\types\helpers\helpers.curve.d.ts" />
+    <TypeScriptCompile Include="wwwroot\lib\ChartJs\types\helpers\helpers.dom.d.ts" />
+    <TypeScriptCompile Include="wwwroot\lib\ChartJs\types\helpers\helpers.easing.d.ts" />
+    <TypeScriptCompile Include="wwwroot\lib\ChartJs\types\helpers\helpers.extras.d.ts" />
+    <TypeScriptCompile Include="wwwroot\lib\ChartJs\types\helpers\helpers.interpolation.d.ts" />
+    <TypeScriptCompile Include="wwwroot\lib\ChartJs\types\helpers\helpers.intl.d.ts" />
+    <TypeScriptCompile Include="wwwroot\lib\ChartJs\types\helpers\helpers.math.d.ts" />
+    <TypeScriptCompile Include="wwwroot\lib\ChartJs\types\helpers\helpers.options.d.ts" />
+    <TypeScriptCompile Include="wwwroot\lib\ChartJs\types\helpers\helpers.rtl.d.ts" />
+    <TypeScriptCompile Include="wwwroot\lib\ChartJs\types\helpers\helpers.segment.d.ts" />
+    <TypeScriptCompile Include="wwwroot\lib\ChartJs\types\helpers\index.d.ts" />
+    <TypeScriptCompile Include="wwwroot\lib\ChartJs\types\index.esm.d.ts" />
+    <TypeScriptCompile Include="wwwroot\lib\ChartJs\types\layout.d.ts" />
+    <TypeScriptCompile Include="wwwroot\lib\ChartJs\types\utils.d.ts" />
   </ItemGroup>
 
 </Project>

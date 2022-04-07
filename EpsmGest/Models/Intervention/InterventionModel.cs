@@ -1,8 +1,8 @@
-﻿using EpsmGest.Models.Stocks;
+﻿using EPSMGest.Models.Stocks;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 
-namespace EpsmGest.Models.Intervention
+namespace EPSMGest.Models.Intervention
 {
 	public class InterventionModel
 	{

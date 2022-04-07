@@ -1,13 +1,17 @@
 ﻿using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 
-namespace EpsmGest.Models.Vehicles
+namespace EPSMGest.Models.Vehicle
 {
 	public class RequestVehicleModel
 	{
 		[Key]
 		[DatabaseGenerated(DatabaseGeneratedOption.Identity)]
 		public int Id { get; set; }
+
+		[ForeignKey("Requisition")]
+		public string RequisitionId { get; set; }
+		public RequisitionModel Requisition { get; set; }
 
 		public bool Approval { get; set; }
 
@@ -22,9 +26,6 @@ namespace EpsmGest.Models.Vehicles
 
 		[Required]
 		public string Origin { get; set; }
-
-		[Required]
-		public string Description { get; set; }
 
 		[Required]
 		public string Driver { get; set; }

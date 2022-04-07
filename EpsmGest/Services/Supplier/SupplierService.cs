@@ -1,6 +1,6 @@
 ﻿using EpsmGest.Data;
 using EpsmGest.ViewModel;
-using EPSMGest.Models;
+using EPSMGest.Models.Supplier;
 
 namespace EPSMGest.Services.Supplier
 {
@@ -18,7 +18,7 @@ namespace EPSMGest.Services.Supplier
             return AppDb.Supplier.ToList();
         }
 
-        public SupplierModel GetSupplier(int id)
+        public SupplierModel? GetSupplier(int id)
         {
             return AppDb.Supplier.FirstOrDefault(x => x.SupplierId == id);
         }

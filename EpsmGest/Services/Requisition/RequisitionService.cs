@@ -3,18 +3,21 @@ using EpsmGest.Data;
 using EpsmGest.ViewModel;
 using EpsmGest.ViewModel.Requisition;
 using EPSMGest.Services.Purchase;
+using EpsmGest.Services.Vehicle;
 
 namespace EPSMGest.Services.Requisition
 {
-    public class RequisitionService : IRequisitionService
+	public class RequisitionService : IRequisitionService
     {
         public readonly EpsmGestDbContext AppDb;
         public readonly IPurchaseService PurchaseService;
+        public readonly IVehicleService VehicleService;
 
-        public RequisitionService(EpsmGestDbContext Db, IPurchaseService _purchaseService)
+        public RequisitionService(EpsmGestDbContext Db, IPurchaseService _purchaseService, IVehicleService _vehicleService)
         {
             AppDb = Db;
             PurchaseService = _purchaseService;
+            VehicleService = _vehicleService;
         }
 
         public List<RequisitionsViewModel> GetRequisitions()
@@ -67,29 +70,38 @@ namespace EPSMGest.Services.Requisition
             return AppDb.Requisition.Select(x => new DropdownViewModel { Id = x.RequisicaoId, Name = x.RequisicaoId }).ToList();
         }
 
-        public async Task CreateRequisition(CreateRequisitionViewModel model)
+        public void CreateReqPurchase(CreateReqPurchaseViewModel model)
         {
-            var lastReq = AppDb.Requisition.OrderByDescending(x => x.RequisicaoId).FirstOrDefault();
-            if (lastReq != null)
-            {
-                var reqId = lastReq.RequisicaoId.Split('_');
-                int nextint = Convert.ToInt32(reqId[2]) + 1;
-                if (DateTime.Now.ToString("yyyy") == reqId[1])
-                {
-                    model.Requisition.RequisicaoId = "Req_" + reqId[1] + "_" + nextint.ToString();
-                }
-                else
-                {
-                    model.Requisition.RequisicaoId = "Req_" + DateTime.Now.ToString("yyyy") + "_" + nextint.ToString();
-                }
-            }
-            else
-            {
-                model.Requisition.RequisicaoId = "Req_" + DateTime.Now.ToString("yyyy") + "_1";
-            }
-                AppDb.Requisition.Add(model.Requisition);
+            model.Requisition.Date = DateTime.Now;
+            model.Requisition.RequisicaoId = UpdateReqId("ReqComp");
+            AppDb.Requisition.Add(model.Requisition);
             AppDb.SaveChanges();
             PurchaseService.CreatePurchase(model);
+        }
+
+        public void CreateReqVehicle(CreateReqVehicleViewModel model)
+		{
+            model.Requisition.Date = DateTime.Now;
+            model.Requisition.RequisicaoId = UpdateReqId("ReqVei");
+            AppDb.Requisition.Add(model.Requisition);
+            AppDb.SaveChanges();
+            VehicleService.CreateRequestVehicle(model);
+        }
+
+        public void CreateReqSpace(CreateReqSpaceViewModel model)
+        {
+            model.Requisition.Date = DateTime.Now;
+            model.Requisition.RequisicaoId = UpdateReqId("ReqEsp");
+            AppDb.Requisition.Add(model.Requisition);
+            AppDb.SaveChanges();
+        }
+
+        public void CreateReqIntervention(CreateReqInterventionViewModel model)
+        {
+            model.Requisition.Date = DateTime.Now;
+            model.Requisition.RequisicaoId = UpdateReqId("ReqInt");
+            AppDb.Requisition.Add(model.Requisition);
+            AppDb.SaveChanges();
         }
 
         public void EditRequisition(RequisitionModel model)
@@ -114,6 +126,20 @@ namespace EPSMGest.Services.Requisition
             return false;
         }
 
+        public string UpdateReqId(string code)
+		{
+            var lastReq = AppDb.Requisition.OrderByDescending(x => x.RequisicaoId).Where(x => x.RequisicaoId.Contains(code)).FirstOrDefault();
+            if (lastReq != null)
+            {
+                var reqId = lastReq.RequisicaoId.Split('_');
+                int nextint = Convert.ToInt32(reqId[2]) + 1;
+                if (DateTime.Now.ToString("yyyy") == reqId[1])
+                    return code + "_" + reqId[1] + "_" + nextint.ToString();
+                else
+                    return code + "_" + DateTime.Now.ToString("yyyy") + "_" + nextint.ToString();
+            }
+            return code + "_" + DateTime.Now.ToString("yyyy") + "_1";
 
+        }
     }
 }

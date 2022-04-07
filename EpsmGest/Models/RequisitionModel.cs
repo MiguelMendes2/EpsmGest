@@ -1,4 +1,7 @@
-﻿using System.ComponentModel.DataAnnotations;
+﻿using EPSMGest.Models.Intervention;
+using EPSMGest.Models.Purchase;
+using EPSMGest.Models.Space;
+using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 
 namespace EPSMGest.Models
@@ -8,6 +11,8 @@ namespace EPSMGest.Models
         [Key]
         [DatabaseGenerated(DatabaseGeneratedOption.None)]
         public string RequisicaoId { get; set; }
+
+        public int Type { get; set; }
 
         [Required]
         [ForeignKey("Departament")]
@@ -23,8 +28,26 @@ namespace EPSMGest.Models
 
         public string? FilesName { get; set; }
 
-		public bool Delivered { get; set; }
+		public int Delivered { get; set; }
 
-		public ICollection<PurchaseModel> Purchase { get; set; }
+		public ICollection<PurchaseModel>? Purchase { get; set; }
+
+		public ICollection<RequestInterventionModel>? RequestInterventions { get; set; }
+
+		public ICollection<RequestSpaceModel>? RequestSpaces { get; set; }
     }
+
+    /* TYPES Codes:
+        0 -> Req. Purchase
+        1 -> Req. Intervention
+        2 -> Req. Space
+        3 -> Req. Vehicle
+
+       Delivered Code:
+        0 -> Awaiting
+        1 -> Rejected
+        2 -> Concluded
+        
+     */
+
 }

@@ -1,61 +1,89 @@
-﻿@model IEnumerable<EpsmGest.ViewModel.UserViewModel>
+﻿@model IEnumerable<EpsmGest.ViewModel.Users.UserViewModel>
 
 @{
     ViewData["Title"] = "Index";
 }
 
-<div class="p-1 p-md-3 p-lg-4">
-    <div class="card">
-        <h5 class="card-header" style="background-color:rgb(35, 141, 15);color:white;">UTILIZADORES</h5>
-        <div class="card-body">
-            <table id="ContentTable" class="table table-bordered table-hover">
-                <thead>
-                    <tr>
-                        <th>
-                            Nome
-                        </th>
-                        <th>
-                            Email
-                        </th>
-                        <th>
-                            Cargo
-                        </th>
-                        <th>
-                            <a asp-action="Create" class="btn btn-sm btn-primary"><i class="fas fa-plus"></i> Novo</a>
-                        </th>
-                    </tr>
-                </thead>
-                <tbody>
-                    @if (Model != null)
-                    {
-                        @if (Model.Count() != 0)
-                        {
-                            @foreach (var item in Model)
-                            {
-                                <tr>
-                                    <td>
-                                        @Html.DisplayFor(modelItem => item.UserName)
-                                    </td>
-                                    <td>
-                                        @Html.DisplayFor(modelItem => item.Email)
-                                    </td>
-                                    <td>
-                                        @Html.DisplayFor(modelItem => item.Role)
-                                    </td>
-                                    <td>
-                                        <a asp-controller="Utilizadores" asp-action="Detalhes" asp-route-id="@item.Id" class="btn btn-primary"><i class="fas fa-clipboard-list"></i></a>
-                                    </td>
-                                </tr>
-                            }
-                        }
-                        else
-                        {
-                            <tr><td colspan="4" class="text-center">Vazio</td></tr>
-                        }
-                    }
-                </tbody>
-            </table>
+<!-- Content Header (Page header) -->
+<section class="content-header">
+    <div class="container-fluid">
+        <div class="row mb-2">
+            <div class="col-sm-6">
+                <h1>Gestão de Utilizadores</h1>
+            </div>
+            <div class="col-sm-6">
+                <ol class="breadcrumb float-sm-right">
+                    <li class="breadcrumb-item"><a asp-controller="Home" asp-action="index">Home</a></li>
+                    <li class="breadcrumb-item active">Utilizadores</li>
+                </ol>
+            </div>
         </div>
     </div>
-</div>
-<partial name="../Shared/_DataTable" />
+    <!-- /.container-fluid -->
+</section>
+
+<!-- Main content -->
+<section class="content">
+    <div class="container-fluid">
+        <div class="row">
+            <div class="col-12">
+                <div class="card">
+                    <partial name="../Shared/_AdminNav" />
+                    <!-- /.card-header -->
+                    <div class="card-body">
+                        <table id="ContentTable" class="table table-bordered table-hover">
+                            <thead>
+                                <tr>
+                                    <th>
+                                        Nome
+                                    </th>
+                                    <th>
+                                        Email
+                                    </th>
+                                    <th>
+                                        Cargo
+                                    </th>
+                                    <th>
+                                        <a asp-action="Create" class="btn btn-sm btn-primary"><i class="fas fa-plus"></i> Novo</a>
+                                    </th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                @if (Model != null)
+                                {
+                                    @if (Model.Count() != 0)
+                                    {
+                                        @foreach (var item in Model)
+                                        {
+                                            <tr>
+                                                <td>
+                                                    @Html.DisplayFor(modelItem => item.UserName)
+                                                </td>
+                                                <td>
+                                                    @Html.DisplayFor(modelItem => item.Email)
+                                                </td>
+                                                <td>
+                                                    @Html.DisplayFor(modelItem => item.Role)
+                                                </td>
+                                                <td>
+                                                    <a asp-action="Details" asp-route-id="@item.Id" class="btn btn-primary"><i class="fas fa-clipboard-list"></i></a>
+                                                </td>
+                                            </tr>
+                                        }
+                                    }
+                                    else
+                                    {
+                                        <tr><td colspan="4" class="text-center">Vazio</td></tr>
+                                    }
+                                }
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+@section Scripts {
+    <partial name="../Shared/_DataTable" />
+}

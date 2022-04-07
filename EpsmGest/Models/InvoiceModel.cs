@@ -1,4 +1,5 @@
-﻿using System.ComponentModel.DataAnnotations;
+﻿using EPSMGest.Models.Supplier;
+using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 
 namespace EPSMGest.Models
@@ -12,7 +13,7 @@ namespace EPSMGest.Models
         public int InvoiceNumber { get; set; }
 
         [RegularExpression(@"^[+-]?[0-9]{1,3}(?:,?[0-9]{3})*\.[0-9]{2}$", ErrorMessage = "Deve utilizar o formato 100,00")]
-        public string? TotalPrice { get; set; }
+        public decimal? TotalPrice { get; set; }
 
         public DateTime Date { get; set; }
 

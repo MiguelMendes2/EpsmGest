@@ -1,7 +1,7 @@
 ﻿using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 
-namespace EpsmGest.Models.Stocks
+namespace EPSMGest.Models.Stocks
 {
 	public class StockCategoryModel
 	{

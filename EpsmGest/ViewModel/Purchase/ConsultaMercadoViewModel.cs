@@ -1,4 +1,6 @@
-﻿namespace EpsmGest.ViewModel.Purchase
+﻿using EPSMGest.Models.Purchase;
+
+namespace EpsmGest.ViewModel.Purchase
 {
 	public class ConsultaMercadoViewModel
 	{
