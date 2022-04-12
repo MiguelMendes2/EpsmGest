@@ -78,7 +78,7 @@
                     <input type="hidden" asp-for="Applicant" />
                     <div class="form-group">
                         <label asp-for="Department" class="control-label"></label>
-                        @Html.DropDownListFor(x => x.Department, new SelectList(ViewBag.Departamentos, "DepartamentoId", "Nome"), "-- Selecione Departamento --", new { @class="form-control"})
+                        @Html.DropDownListFor(x => x.Department, new SelectList(ViewBag.Departamentos, "Id", "Name"), "-- Selecione Departamento --", new { @class="form-control"})
                         <span asp-validation-for="Department" class="text-danger"></span>
                     </div>
                     <div class="form-group">

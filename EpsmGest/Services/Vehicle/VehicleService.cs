@@ -17,12 +17,12 @@ namespace EpsmGest.Services.Vehicle
 
 		public RequestVehicleModel? GetRequestVehicle(int id)
 		{
-			return AppDb.RequestVehicle.Include(x => x.Requisition).FirstOrDefault(x => x.Id == id);
+			return AppDb.RequestVehicle.Include(x => x.Requisition).Include(x => x.Vehicle).FirstOrDefault(x => x.Id == id);
 		}
 
 		public List<RequestVehicleModel> GetRequestVehicles()
 		{
-			return AppDb.RequestVehicle.Include(x => x.Requisition).Where(x => x.Approval == false).ToList();
+			return AppDb.RequestVehicle.Include(x => x.Requisition).Include(x => x.Vehicle).ToList();
 		}
 
 		public List<RequestVehicleModel> GetHistoricRequestVehicles()
@@ -39,23 +39,34 @@ namespace EpsmGest.Services.Vehicle
 
 		public bool EditRequestVehicle(RequestVehicleModel model)
 		{
-			var request = AppDb.RequestVehicle.Include(x => x.Requisition).FirstOrDefault(x => x.Id == model.Id && x.Approval == false);
+			var request = AppDb.RequestVehicle.Include(x => x.Requisition).FirstOrDefault(x => x.Id == model.Id 
+					&& x.Approval == false && x.Departure > DateTime.Now);
 			if (request == null)
 				return false;
-			AppDb.RequestVehicle.Update(model);
+			request.Service = model.Service;
+			request.Requisition.Description = model.Requisition.Description;
+			request.Origin = model.Origin;
+			request.Occupants = model.Occupants;
+			request.VehicleId = model.VehicleId;
 			AppDb.SaveChanges();
 			return true;
 		}
 
 		public bool ChangeAproval(int Id)
 		{
-			var request = AppDb.RequestVehicle.FirstOrDefault(x => x.Id == Id);
+			var request = AppDb.RequestVehicle.Include(x => x.Requisition).FirstOrDefault(x => x.Id == Id);
 			if (request == null)
 				return false;
 			if (request.Approval == false)
+			{
+				request.Requisition.Delivered = 2;
 				request.Approval = true;
+			}
 			else
+			{
+				request.Requisition.Delivered = 0;
 				request.Approval = false;
+			}
 			AppDb.RequestVehicle.Update(request);
 			AppDb.SaveChanges();
 			return true;
@@ -66,6 +77,9 @@ namespace EpsmGest.Services.Vehicle
 			var request = AppDb.RequestVehicle.FirstOrDefault(x => x.Id == id);
 			if (request == null)
 				return false;
+
+			var requisition = AppDb.Requisition.FirstOrDefault(x => x.RequisicaoId == request.RequisitionId);
+			requisition.Delivered = 1;
 			AppDb.Remove(request);
 			AppDb.SaveChanges();
 			return true;

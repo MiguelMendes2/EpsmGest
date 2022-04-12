@@ -130,13 +130,28 @@
                             </li>
 
                             <!-- Vehicle -->
-                            <li class="nav-item">
-                                <a class="nav-link @(controllerName == "Vehicle" ? "active" : "")" asp-controller="Vehicle" asp-action="Index" asp-route-Id="">
+                            <li class="nav-item @(controllerName == "RequestVehicle" ? "menu-is-opening menu-open" : "")">
+                                <a href="#" class="nav-link @(controllerName == "RequestVehicle" ? "active" : "")">
                                     <i class="fas fa-truck"></i>
                                     <p>
                                         Viaturas
+                                        <i class="fas fa-angle-left right"></i>
                                     </p>
                                 </a>
+                                <ul class="nav nav-treeview">
+                                    <li class="nav-item">
+                                        <a class="nav-link @(controllerName == "RequestVehicle" ? "active" : "")" asp-controller="RequestVehicle" asp-action="">
+                                            <i class="far fa-circle nav-icon"></i>
+                                            <p>Requesições</p>
+                                        </a>
+                                    </li>
+                                    <li class="nav-item">
+                                        <a id="ExitBtn" class="nav-link @(controllerName == "RequestVehicle" && pageName == "Historical" ? "active" : "")" asp-controller="RequestVehicle" asp-action="Historical" >
+                                            <i class="far fa-circle nav-icon"></i>
+                                            <p>Histórico</p>
+                                        </a>                                    
+                                    </li>
+                                </ul>
                             </li>
                             
                             <!-- Intervention -->

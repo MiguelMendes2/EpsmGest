@@ -133,7 +133,7 @@ namespace EpsmGest.Controllers
             var model = RequisitionService.GetRequisition(id);
             if (model == null)
                 return NotFound();
-            ViewBag.Departamentos = DepartmentService.GetDepartments();
+            ViewBag.Departamentos = DepartmentService.GetDepartmentIds();
             return View(model);
         }
 

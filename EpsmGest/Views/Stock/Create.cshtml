@@ -1,0 +1,91 @@
+﻿@model EpsmGest.ViewModel.CreateSockViewModel
+
+@{
+    ViewData["Title"] = "Gestão de Estoque";
+    var controllerName = ViewContext.RouteData.Values["controller"]?.ToString();
+}
+
+<!-- Content Header (Page header) -->
+<section class="content-header">
+    <div class="container-fluid">
+        <div class="row mb-2">
+            <div class="col-sm-6">
+                <h1>gestão de Estoque</h1>
+            </div>
+            <div class="col-sm-6">
+                <ol class="breadcrumb float-sm-right">
+                    <li class="breadcrumb-item"><a asp-controller="Home" asp-action="index">Home</a></li>
+                    <li class="breadcrumb-item active">Estoque</li>
+                </ol>
+            </div>
+        </div>
+    </div>
+    <!-- /.container-fluid -->
+</section>
+
+<!-- Main content -->
+<section class="content">
+    <div class="container-fluid">
+        <div class="row">
+            <div class="col-12">
+                <div class="card">
+                    <h5 class="card-header">Novo Item</h5>
+                    <!-- /.card-header -->
+                    <div class="card-body">
+                        <form asp-action="Create">
+                            <div class="container-md">
+                                <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+                                <div class="col-md-5">
+                                    <div class="form-group">
+                                        <label asp-for="Name" class="control-label">Nome</label>
+                                        <input asp-for="Name" class="form-control" />
+                                        <span asp-validation-for="Name" class="text-danger"></span>
+                                    </div>
+                                </div>
+                                <div class="col-md-5">
+                                    <div class="form-group">
+                                        <label asp-for="Quantity" class="control-label">Quantidade</label>
+                                        <input asp-for="Quantity" class="form-control" />
+                                        <span asp-validation-for="Quantity" class="text-danger"></span>
+                                    </div>
+                                </div>
+                                <div class="col-md-5">
+                                    <div class="form-group">
+                                        <label asp-for="CategoryName" class="control-label">Categoria</label>
+                                        <input list="Categorys" asp-for="CategoryName" class="form-control" />
+                                        <span asp-validation-for="CategoryName" class="text-danger"></span>
+                                        <datalist id="Categorys">
+                                            @foreach(var Item in (List<EpsmGest.ViewModel.DropdownViewModel>)ViewBag.Categories)
+                                            {
+                                                <option value="@Item.Name" />
+                                            }
+                                        </datalist>
+                                    </div>
+                                </div>
+                                <div class="mt-2" style="text-align:right;">
+                                    <a asp-action="Index" class="btn btn-primary">Voltar</a>
+                                    <input type="submit" id="buttons" class="btn btn-success ml-2" value="Criar">
+                                </div>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+@section Scripts {
+    @{
+        await Html.RenderPartialAsync("_ValidationScriptsPartial");
+    }
+    <script>
+        $( function() {
+          var availableTags = [
+        @Json.Serialize(ViewBag.Categories)
+          ];
+          $( "#CategoryInput" ).autocomplete({
+            source: availableTags
+          });
+        } );
+    </script>
+    }
